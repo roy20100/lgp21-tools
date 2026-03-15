@@ -24,7 +24,7 @@ ORDER_MASK    = 0x800F0000  # Mask out the 5-bit order field.
 ADDRESS_MASK  = 0x00003FFC  # Mask out the 12-bit address field.
 ADDRESS_SHIFT = 2           # LSB of the address field.
 TRACK_MASK    = 0x00003F00  # Mask out the 6-bit track number field.
-TRACK_SHIFT   = 9           # LSB of the track number field.
+TRACK_SHIFT   = 8           # LSB of the track number field.
 SECTOR_MASK   = 0x000000FC  # Mask out the 6-bit sector number field.
 SECTOR_SHIFT  = 2           # LSB of the sector number field.
 

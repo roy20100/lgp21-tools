@@ -23,6 +23,7 @@ import termios
 import tty
 import sys
 import lgp21.charset as charset
+import lgp21.dis as dis
 import lgp21.hexadecimal as hexadecimal
 import lgp21.insn as insn
 
@@ -263,7 +264,9 @@ class Machine:
 
             case insn.INPUT6:
                 # I: Shift accumulator right 6 bits and input characters.
-                if address == 0xF80:
+                # The manuals say the special shift is "I6200" but actual
+                # paper tapes from the era use "I6300".  Accept both.
+                if address == 0xF80 or address == 0xFC0:
                     # Instruction is "I6200", which indicates a 6-bit
                     # shift without any input.
                     self.A = (self.A << 6) & 0xFFFFFFFE
@@ -272,7 +275,7 @@ class Machine:
 
             case insn.INPUT4:
                 # I: Shift accumulator right 4 bits and input characters.
-                if address == 0xF80:
+                if address == 0xF80 or address == 0xFC0:
                     # Instruction is "-I6200", which indicates a 4-bit
                     # shift without any input.
                     self.A = (self.A << 4) & 0xFFFFFFFE
@@ -349,10 +352,11 @@ class Machine:
     Dump the contents of memory.
     '''
     def dump_memory(self):
+        print("Addr      Word   Hex Word   Instruction Details")
         for address in range(0, len(self.memory)):
             word = self.memory[address]
             inst = hexadecimal.to_hex(word, min_digits=1, order_codes=True)
-            print("%02d%02d  %8s'\r\n" % (address / 64, address % 64, inst), end='')
+            print("%02d%02d  %8s'  %s" % (address / 64, address % 64, inst, dis.disassemble(word)))
 
     '''
     Internal handling for input instructions.
