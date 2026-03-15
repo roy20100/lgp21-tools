@@ -39,6 +39,12 @@ characters because they correspond to the instruction names: i = Input,
 c = Clear, u = Unconditional Branch.  That makes it easier for humans to
 prepare program tapes using the typewriter.
 
+## Documentation
+
+* [LGP-21 Programming Manual](https://bitsavers.org/pdf/generalPrecision/LGP-21/LGP-21_Programming_Manual_1963.pdf)
+* [LGP-21 Reference Manual](https://bitsavers.org/pdf/generalPrecision/LGP-21/LGP-21_Reference_Manual_1963.pdf)
+* [Program Input Routine Bootstrap Process](doc/bootstrap.md)
+
 ## Converting tapes
 
 The `lgp21-tape-to-ascii` tool converts binary .ptp tape images into
