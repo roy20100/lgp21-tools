@@ -86,6 +86,9 @@ The emulator makes use of the Python tty and termios modules, which only
 work on Unix/Linux systems.  Patches to make it work under non-POSIX
 systems welcome.
 
+The "-v" option to lgp21-run will dump the register values and
+the current instruction as code is executed.
+
 ## License
 
 Distributed under the terms of the MIT license.

@@ -147,6 +147,7 @@ class Machine:
         self.input_buffer = -1
         self.input_init = None
         self.loading_bootstrap = False
+        self.verbose = False
 
     '''
     Bootstraps the machine and loads the program input routine
@@ -207,9 +208,10 @@ class Machine:
         track = address >> 6
 
         # Print the instruction - for debugging.
-        #inststr = hexadecimal.to_hex(inst, min_digits=1, order_codes=True)
-        #print("A = %08x" % self.A)
-        #print("%02d%02d  %8s'  %s" % (iaddr / 64, iaddr % 64, inststr, dis.disassemble(inst)))
+        if self.verbose:
+            inststr = hexadecimal.to_hex(inst, min_digits=1, order_codes=True)
+            print("A = %08x, overflow = %d" % (self.A, int(self.overflow)))
+            print("%02d%02d  %8s'  %s" % (iaddr / 64, iaddr % 64, inststr, dis.disassemble(inst)))
 
         # Determine what needs to be done.
         match opcode:
@@ -376,6 +378,9 @@ class Machine:
                 else:
                     self.A = (self.A << 6) | ch
             ch = self._input_char(device)
+        if self.verbose:
+            # Print a newline in verbose mode after the word is input.
+            print("")
 
     '''
     Input a single character.
