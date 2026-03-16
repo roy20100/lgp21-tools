@@ -1,0 +1,212 @@
+Addr      Word   Hex Word   Instruction Details
+0000     u02j8'  000a02c8   U 0250   Jump to 0250
+0001         0'  00000000   Z 0000   Halt
+0002  800i0200'  80040200  -I 0200   4-bit input from typewriter
+0003     c0014'  000d0014   C 0005   Store A to [0005] and clear A
+0004  800i0200'  80040200  -I 0200   4-bit input from typewriter
+0005         0'  00000000   Z 0000   Halt
+0006     u0008'  000a0008   U 0002   Jump to 0002
+0007     y00fj'  000200ac   Y 0043   Store A to address field of [0043]
+0008     y0194'  00020194   Y 0137   Store A to address field of [0137]
+0009     y01fj'  000201ac   Y 0143   Store A to address field of [0143]
+0010     c0104'  000d0104   C 0101   Store A to [0101] and clear A
+0011     a00w4'  000e00f4   A 0061   Add [0061] to A
+0012     u0048'  000a0048   U 0018   Jump to 0018
+0013      wj00'  0000fc00   Z 6000   Skip if switches 0x3c are not all set
+0014     b0000'  00010000   B 0000   Load A from [0000]
+0015   wwswwwj'  0ffffffc
+0016         0'  00000000   Z 0000   Halt
+0017     b00w4'  000100f4   B 0061   Load A from [0061]
+0018     c00w4'  000d00f4   C 0061   Store A to [0061] and clear A
+0019  800i0200'  80040200  -I 0200   4-bit input from typewriter
+0020     h0118'  000c0118   H 0106   Store A to [0106]
+0021     a0074'  000e0074   A 0029   Add [0029] to A
+0022  800z0200'  80000200  -Z 0200   Skip if no overflow
+0023     u0208'  000a0208   U 0202   Jump to 0202
+0024     n00g8'  000600b8   N 0046   Multiply A by [0046], low bits
+0025     h0110'  000c0110   H 0104   Store A to [0104]
+0026     e0230'  00090230   E 0212   Bitwise AND [0212] with A
+0027     m0078'  00070078   M 0030   Multiply A by [0030], high bits
+0028     u0080'  000a0080   U 0032   Jump to 0032
+0029  100z0000'  10000000
+0030  k00z0000'  d0000000
+0031     c3wwj'  000d3ffc   C 6363   Store A to [6363] and clear A
+0032     a0110'  000e0110   A 0104   Add [0104] to A
+0033     h0114'  000c0114   H 0105   Store A to [0105]
+0034     e0034'  00090034   E 0013   Bitwise AND [0013] with A
+0035     m0264'  00070264   M 0225   Multiply A by [0225], high bits
+0036     u00f0'  000a00a0   U 0040   Jump to 0040
+0037     a00g4'  000e00b4   A 0045   Add [0045] to A
+0038     t0174'  000b0174   T 0129   Jump to 0129 if A is negative
+0039     u02k4'  000a02d4   U 0253   Jump to 0253
+0040     a0114'  000e0114   A 0105   Add [0105] to A
+0041     y0118'  00020118   Y 0106   Store A to address field of [0106]
+0042     u00gj'  000a00bc   U 0047   Jump to 0047
+0043         0'  00000000   Z 0000   Halt
+0044  701z0000'  70100000
+0045  200i0000'  20040000
+0046         4'  00000004   Z 0001   Halt
+0047     b024j'  0001024c   B 0219   Load A from [0219]
+0048     e0118'  00090118   E 0106   Bitwise AND [0106] with A
+0049     a0170'  000e0170   A 0128   Add [0128] to A
+0050  800z0200'  80000200  -Z 0200   Skip if no overflow
+0051     u0094'  000a0094   U 0037   Jump to 0037
+0052     n016j'  0006016c   N 0127   Multiply A by [0127], low bits
+0053     t029j'  000b029c   T 0239   Jump to 0239 if A is negative
+0054     b0268'  00010268   B 0226   Load A from [0226]
+0055     a0118'  000e0118   A 0106   Add [0106] to A
+0056     u00w0'  000a00f0   U 0060   Jump to 0060
+0057  100n0004'  10060004
+0058     u0150'  000a0150   U 0120   Jump to 0120
+0059   wwr0000'  0ff30000
+0060     e0248'  00090248   E 0218   Bitwise AND [0218] with A
+0061     u0150'  000a0150   U 0120   Jump to 0120
+0062     b026j'  0001026c   B 0227   Load A from [0227]
+0063     u002j'  000a002c   U 0011   Jump to 0011
+0100     c0120'  000d0120   C 0108   Store A to [0108] and clear A
+0101     i0200'  00040200   I 0200   6-bit input from typewriter
+0102     u019j'  000a019c   U 0139   Jump to 0139
+0103      2000'  00002000   Z 3200   Skip if switches 0x20 are not all set
+0104         0'  00000000   Z 0000   Halt
+0105         0'  00000000   Z 0000   Halt
+0106         0'  00000000   Z 0000   Halt
+0107         0'  00000000   Z 0000   Halt
+0108         0'  00000000   Z 0000   Halt
+0109         2'  00000002
+0110  800z0200'  80000200  -Z 0200   Skip if no overflow
+0111     u0130'  000a0130   U 0112   Jump to 0112
+0112     c0114'  000d0114   C 0105   Store A to [0105] and clear A
+0113  800i0200'  80040200  -I 0200   4-bit input from typewriter
+0114     s011j'  000f011c   S 0107   Subtract [0107] from A
+0115     t0148'  000b0148   T 0118   Jump to 0118 if A is negative
+0116     s0124'  000f0124   S 0109   Subtract [0109] from A
+0117     t0048'  000b0048   T 0018   Jump to 0018 if A is negative
+0118     c0110'  000d0110   C 0104   Store A to [0104] and clear A
+0119  800t004j'  800b004c  -T 0019   Jump to 0019 if A is negative or TC is set
+0120     b0204'  00010204   B 0201   Load A from [0201]
+0121     p0200'  00080200   P 0200   Print 6-bit character to typewriter
+0122     i3w00'  00043f00   I 6300   Shift A left by 6 bits
+0123     p0200'  00080200   P 0200   Print 6-bit character to typewriter
+0124     p0200'  00080200   P 0200   Print 6-bit character to typewriter
+0125         2'  00000002
+0126     u02k0'  000a02d0   U 0252   Jump to 0252
+0127       100'  00000100   Z 0100   Halt
+0128  700z0000'  70000000
+0129     a003j'  000e003c   A 0015   Add [0015] to A
+0130     t0270'  000b0270   T 0228   Jump to 0228 if A is negative
+0131     n01gj'  000601bc   N 0147   Multiply A by [0147], low bits
+0132     a00w4'  000e00f4   A 0061   Add [0061] to A
+0133     c01f4'  000d01a4   C 0141   Store A to [0141] and clear A
+0134     b0118'  00010118   B 0106   Load A from [0106]
+0135     t0100'  000b0100   T 0100   Jump to 0100 if A is negative
+0136     c0120'  000d0120   C 0108   Store A to [0108] and clear A
+0137  800i0200'  80040200  -I 0200   4-bit input from typewriter
+0138     u01f4'  000a01a4   U 0141   Jump to 0141
+0139     n026j'  0006026c   N 0227   Multiply A by [0227], low bits
+0140     h0114'  000c0114   H 0105   Store A to [0105]
+0141         0'  00000000   Z 0000   Halt
+0142     u01j0'  000a01c0   U 0148   Jump to 0148
+0143       200'  00000200   Z 0200   NOP
+0144         0'  00000000   Z 0000   Halt
+0145         0'  00000000   Z 0000   Halt
+0146     u004j'  000a004c   U 0019   Jump to 0019
+0147     i0000'  00040000   I 0000   6-bit input from tape reader
+0148     b01f4'  000101a4   B 0141   Load A from [0141]
+0149     a0200'  000e0200   A 0200   Add [0200] to A
+0150     t01k0'  000b01d0   T 0152   Jump to 0152 if A is negative
+0151     u0184'  000a0184   U 0133   Jump to 0133
+0152     e007j'  0009007c   E 0031   Bitwise AND [0031] with A
+0153     c00w4'  000d00f4   C 0061   Store A to [0061] and clear A
+0154     u01kj'  000a01dc   U 0155   Jump to 0155
+0155     b0118'  00010118   B 0106   Load A from [0106]
+0156     t01q8'  000b01e8   T 0158   Jump to 0158 if A is negative
+0157     u0044'  000a0044   U 0017   Jump to 0017
+0158     b01f4'  000101a4   B 0141   Load A from [0141]
+0159     c01g4'  000d01b4   C 0145   Store A to [0145] and clear A
+0160     b0164'  00010164   B 0125   Load A from [0125]
+0161     a0114'  000e0114   A 0105   Add [0105] to A
+0162     u01g4'  000a01b4   U 0145   Jump to 0145
+0163   wwn0000'  0ff60000
+0200  wwwz0004'  fff00004
+0201  94kz0000'  94d00000
+0202     s0228'  000f0228   S 0210   Subtract [0210] from A
+0203     h011j'  000c011c   H 0107   Store A to [0107]
+0204     s00g0'  000f00b0   S 0044   Subtract [0044] from A
+0205     h0234'  000c0234   H 0213   Store A to [0213]
+0206     a0038'  000e0038   A 0014   Add [0014] to A
+0207     c023j'  000d023c   C 0215   Store A to [0215] and clear A
+0208  800i0200'  80040200  -I 0200   4-bit input from typewriter
+0209     u0234'  000a0234   U 0213   Jump to 0213
+0210  100z0000'  10000000
+0211         0'  00000000   Z 0000   Halt
+0212     rj3j0'  0003c3c0   R 0348   Store return address to [0348]
+0213         0'  00000000   Z 0000   Halt
+0214     b011j'  0001011c   B 0107   Load A from [0107]
+0215         0'  00000000   Z 0000   Halt
+0216     c011j'  000d011c   C 0107   Store A to [0107] and clear A
+0217     u0250'  000a0250   U 0220   Jump to 0220
+0218  800s3wwj'  800f3ffc
+0219  709s3wwj'  709f3ffc
+0220     b0234'  00010234   B 0213   Load A from [0213]
+0221     a0200'  000e0200   A 0200   Add [0200] to A
+0222     t0128'  000b0128   T 0110   Jump to 0110 if A is negative
+0223     u0214'  000a0214   U 0205   Jump to 0205
+0224     i0200'  00040200   I 0200   6-bit input from typewriter
+0225  f00z0000'  a0000000
+0226         0'  00000000   Z 0000   Halt
+0227         4'  00000004   Z 0001   Halt
+0228     a00q4'  000e00e4   A 0057   Add [0057] to A
+0229     t0288'  000b0288   T 0234   Jump to 0234 if A is negative
+0230     h0110'  000c0110   H 0104   Store A to [0104]
+0231     c0118'  000d0118   C 0106   Store A to [0106] and clear A
+0232     c0114'  000d0114   C 0105   Store A to [0105] and clear A
+0233     u010j'  000a010c   U 0103   Jump to 0103
+0234     a01wj'  000e01fc   A 0163   Add [0163] to A
+0235     t02f4'  000b02a4   T 0241   Jump to 0241 if A is negative
+0236     c0268'  000d0268   C 0226   Store A to [0226] and clear A
+0237     u004j'  000a004c   U 0019   Jump to 0019
+0238         0'  00000000   Z 0000   Halt
+0239     c0110'  000d0110   C 0104   Store A to [0104] and clear A
+0240     u00kj'  000a00dc   U 0055   Jump to 0055
+0241     a02j4'  000e02c4   A 0249   Add [0249] to A
+0242     t02g0'  000b02b0   T 0244   Jump to 0244 if A is negative
+0243     u0048'  000a0048   U 0018   Jump to 0018
+0244     a00qj'  000e00ec   A 0059   Add [0059] to A
+0245     t02q8'  000b02e8   T 0258   Jump to 0258 if A is negative
+0246     c0040'  000d0040   C 0016   Store A to [0016] and clear A
+0247  800i0200'  80040200  -I 0200   4-bit input from typewriter
+0248     u0040'  000a0040   U 0016   Jump to 0016
+0249  100c0000'  100d0000
+0250     b00q8'  000100e8   B 0058   Load A from [0058]
+0251     c00w4'  000d00f4   C 0061   Store A to [0061] and clear A
+0252     b0260'  00010260   B 0224   Load A from [0224]
+0253     y02gj'  000202bc   Y 0247   Store A to address field of [0247]
+0254     y004j'  0002004c   Y 0019   Store A to address field of [0019]
+0255     y0134'  00020134   Y 0113   Store A to address field of [0113]
+0256     y0220'  00020220   Y 0208   Store A to address field of [0208]
+0257     u0020'  000a0020   U 0008   Jump to 0008
+0258     y02qj'  000202ec   Y 0259   Store A to address field of [0259]
+0259     b0000'  00010000   B 0000   Load A from [0000]
+0260         0'  00000000   Z 0000   Halt
+0261     b02qj'  000102ec   B 0259   Load A from [0259]
+0262     a026j'  000e026c   A 0227   Add [0227] to A
+0263     u02q8'  000a02e8   U 0258   Jump to 0258
+...
+6300  800i0000'  80040000  -I 0000   4-bit input from tape reader
+6301     c02wj'  000d02fc   C 0263   Store A to [0263] and clear A
+6302     u3w20'  000a3f20   U 6308   Jump to 6308
+6303         0'  00000000   Z 0000   Halt
+6304         0'  00000000   Z 0000   Halt
+6305         0'  00000000   Z 0000   Halt
+6306         0'  00000000   Z 0000   Halt
+6307         0'  00000000   Z 0000   Halt
+6308     b3w04'  00013f04   B 6301   Load A from [6301]
+6309     s3w44'  000f3f44   S 6317   Subtract [6317] from A
+6310     t3w34'  000b3f34   T 6313   Jump to 6313 if A is negative
+6311     c3w04'  000d3f04   C 6301   Store A to [6301] and clear A
+6312     u3w00'  000a3f00   U 6300   Jump to 6300
+6313         0'  00000000   Z 0000   Halt
+6314     u0000'  000a0000   U 0000   Jump to 0000
+6315         0'  00000000   Z 0000   Halt
+6316         0'  00000000   Z 0000   Halt
+6317     swwwj'  000ffffc   S 6363   Subtract [6363] from A
