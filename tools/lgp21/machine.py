@@ -54,32 +54,40 @@ k0268'f004j''k0110'f00kj'q02j4'g02g0'f0048'q00qj't02q8'k0040'
 """
 
 '''
-Converts a 32-bit word into its signed 31-bit form.
+Converts a 32-bit word into its signed form.
 '''
 def to_signed(value):
-    # Lose the LSB as that is an unused "spacer" bit in the LGP-21.
-    value = value >> 1
-
-    # Negate the value if the sign bit is set.
-    if (value & 0x40000000) != 0:
-        value = (value ^ 0x7FFFFFFF) + 1
+    if (value & 0x80000000) != 0:
+        value = (value ^ 0xFFFFFFFF) + 1
         return -value
     else:
         return value
 
 '''
-Converts the signed 31-bit form of a word back into a 32-bit word.
+Converts the signed form of a word back into a 32-bit word.
 Returns the 32-bit form and the overflow indicator.
 '''
 def from_signed(value):
-    if value < -0x40000000 or value > 0x3FFFFFFF:
+    if value < -0x80000000 or value > 0x7FFFFFFF:
         overflow = True
     else:
         overflow = False
     if value < 0:
         value = -value
-        value = (value ^ 0x7FFFFFFF) + 1
-    return ((value << 1) & 0xFFFFFFFE, overflow)
+        value = (value ^ 0xFFFFFFFF) + 1
+    return (value & 0xFFFFFFFF, overflow)
+
+'''
+Add two 32-bit words, returning the value and the overflow indicator.
+'''
+def add(x, y):
+    return from_signed(to_signed(x) + to_signed(y))
+
+'''
+Subtract two 32-bit words, returning the value and the overflow indicator.
+'''
+def sub(x, y):
+    return from_signed(to_signed(x) - to_signed(y))
 
 '''
 Multiply two words and return the low or high part of the 62-bit result.
@@ -88,11 +96,11 @@ def multiply(x, y, high):
     value = to_signed(x) * to_signed(y)
     if value < 0:
         value = -value
-        value = (value ^ 0x3FFFFFFFFFFFFFFF) + 1
+        value = (value ^ 0xFFFFFFFFFFFFFFFF) + 1
     if high:
-        return (value >> 30) & 0xFFFFFFFE
+        return (value >> 31) & 0xFFFFFFFE
     else:
-        return (value << 1) & 0xFFFFFFFE
+        return value & 0xFFFFFFFE
 
 '''
 Divide x by y and return the quotient rounded to 30 bits.
@@ -118,8 +126,8 @@ def divide(x, y):
     if y == 0:
         # Division by zero produces an all-1's value and overflow.
         # Is this correct?  Should the machine catch on fire instead?
-        return (0xFFFFFFFE, True)
-    result = int((x << 31) / y) + 1
+        return (0xFFFFFFFF, True)
+    result = int((x << 32) / y) + 1
     result = result >> 1 # Account for the extra rounding bit.
     if sign:
         result = -result
@@ -340,11 +348,11 @@ class Machine:
 
             case insn.ADD | insn.ADDM:
                 # A: Add the contents of memory to the accumulator.
-                self.A, self.overflow = from_signed(to_signed(self.A) + to_signed(self.memory[address]))
+                self.A, self.overflow = add(self.A, self.memory[address])
 
             case insn.SUB | insn.SUBM:
                 # S: Subtract the contents of memory from the accumulator.
-                self.A, self.overflow = from_signed(to_signed(self.A) - to_signed(self.memory[address]))
+                self.A, self.overflow = sub(self.A, self.memory[address])
 
     '''
     Run the machine continuously until it halts.  Does nothing if the
