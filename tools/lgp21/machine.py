@@ -23,6 +23,7 @@ import lgp21.charset as charset
 import lgp21.dis as dis
 import lgp21.hexadecimal as hexadecimal
 import lgp21.insn as insn
+import sys
 
 # Contents of the Program Input Routine #2 tape.
 # https://bitsavers.org/pdf/generalPrecision/LGP-21/paper_tapes/Program_Input_%232.ptp
@@ -408,7 +409,10 @@ class Machine:
                 self.input_buffer = -1
                 return ch
 
-            data = readchar.readchar()
+            if sys.stdin.isatty():
+                data = readchar.readchar()
+            else:
+                data = sys.stdin.read(1)
 
             if data == readchar.key.CTRL_C:
                 raise KeyboardInterrupt
