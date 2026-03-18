@@ -1,0 +1,69 @@
+#!/usr/bin/python3
+#
+# Assembler for LGP-21 programs.
+#
+# Usage: lgp21-assembler output.txt input.asm
+
+import sys
+import lgp21.charset as charset
+import lgp21.codegen as codegen
+import lgp21.hexadecimal as hexadecimal
+import lgp21.insn as insn
+
+# Test code for the CodeGenerator class that prints "he11orld" only.
+# This will be replaced with a proper assembler later.
+
+location = 'filename.asm:1'
+cg = codegen.CodeGenerator()
+cg.PC = codegen.dec_to_hex_address(1000)
+
+start = cg.label_for_PC('start', location)
+cg.set_entry_point(start)
+
+msg = cg.get_label('msg', location)
+i = codegen.Instruction(location)
+i.set_order(insn.BRING)
+i.set_label(msg)
+cg.add_instruction(i)
+
+for n in range(0, 5):
+    i = codegen.Instruction(location)
+    i.set_order(insn.PRINT6)
+    i.set_address(codegen.dec_to_hex_address(200))
+    cg.add_instruction(i)
+    i = codegen.Instruction(location)
+    if i != 4:
+        i.set_order(insn.INPUT6)
+        i.set_address(codegen.dec_to_hex_address(6200))
+        cg.add_instruction(i)
+
+i.set_order(insn.BRING)
+i.set_label(msg)
+i.set_offset(1) # msg+1
+cg.add_instruction(i)
+
+for n in range(0, 3):
+    i = codegen.Instruction(location)
+    i.set_order(insn.PRINT6)
+    i.set_address(codegen.dec_to_hex_address(200))
+    cg.add_instruction(i)
+    i = codegen.Instruction(location)
+    if i != 2:
+        i.set_order(insn.INPUT6)
+        i.set_address(codegen.dec_to_hex_address(6200))
+        cg.add_instruction(i)
+
+i = codegen.Instruction(location)
+i.set_order(insn.STOP)
+cg.add_instruction(i)
+
+cg.label_for_PC('msg', location)
+i = codegen.Instruction(location)
+i.set_literal(0xC651868C)
+cg.add_instruction(i)
+i = codegen.Instruction(location)
+i.set_literal(0x34655000)
+cg.add_instruction(i)
+
+cg.resolve()
+print(cg.to_tape(), end='')
