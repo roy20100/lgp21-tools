@@ -1,4 +1,3 @@
-
 # Copyright (C) 2026 Rhys Weatherley
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -19,13 +18,12 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 
-import termios
-import tty
-import sys
+import readchar
 import lgp21.charset as charset
 import lgp21.dis as dis
 import lgp21.hexadecimal as hexadecimal
 import lgp21.insn as insn
+import sys
 
 # Contents of the Program Input Routine #2 tape.
 # https://bitsavers.org/pdf/generalPrecision/LGP-21/paper_tapes/Program_Input_%232.ptp
@@ -153,7 +151,6 @@ class Machine:
         self.print_upper = False
         self.input_upper = False
         self.input_buffer = -1
-        self.input_init = None
         self.loading_bootstrap = False
         self.verbose = False
 
@@ -369,8 +366,9 @@ class Machine:
         print("Addr      Word   Hex Word   Instruction Details")
         for address in range(0, len(self.memory)):
             word = self.memory[address]
-            inst = hexadecimal.to_hex(word, min_digits=1, order_codes=True)
-            print("%02d%02d  %8s'  %s" % (address / 64, address % 64, inst, dis.disassemble(word)))
+            if word:
+                inst = hexadecimal.to_hex(word, min_digits=1, order_codes=True)
+                print("%02d%02d  %8s'  %s" % (address / 64, address % 64, inst, dis.disassemble(word)))
 
     '''
     Internal handling for input instructions.
@@ -410,15 +408,19 @@ class Machine:
                 ch = self.input_buffer
                 self.input_buffer = -1
                 return ch
-            if self.input_init == None:
-                self.input_init = tty.tcgetattr(0)
-                tty.setcbreak(0)
-            data = sys.stdin.read(1)
-            if data == chr(27):
+
+            if sys.stdin.isatty():
+                data = readchar.readchar()
+            else:
+                data = sys.stdin.read(1)
+
+            if data == readchar.key.CTRL_C:
+                raise KeyboardInterrupt
+            elif data == readchar.key.ESC:
                 # ESC dumps the contents of memory.
                 self.dump_memory()
-            elif len(data) > 0:
-                print(data, end='', flush=True) # Echo the typewriter input.
+            elif data:
+                print(data, end='\n' if data == '\r' else '', flush=True) # Echo the typewriter input.
                 codes = charset.io_ascii_to_6bit(data, upper=self.input_upper, as_list=True)
                 if len(codes) > 1 and codes[0] == 0x04:
                     # Shift to lower case.
@@ -464,6 +466,4 @@ class Machine:
         return self
 
     def __exit__(self, exc_type, exc_value, traceback):
-        if self.input_init != None:
-            termios.tcsetattr(0, termios.TCSAFLUSH, self.input_init)
-            self.input_init = None
+        pass  # readchar manages terminal state internally; nothing to restore.

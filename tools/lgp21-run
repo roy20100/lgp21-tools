@@ -12,12 +12,15 @@ with machine.Machine() as mach:
         mach.verbose = True
     mach.bootstrap()
     mach.BS = 32 # Auto-run when a "." command is seen.
-    while True:
-        # Run the machine until it halts.
-        mach.run()
+    try:
+        while True:
+            # Run the machine until it halts.
+            mach.run()
 
-        # Reset and jump back into the "Program Input Routine".
-        mach.A = 0
-        mach.C = 0
-        mach.overflow = False
-        mach.resume()
+            # Reset and jump back into the "Program Input Routine".
+            mach.A = 0
+            mach.C = 0
+            mach.overflow = False
+            mach.resume()
+    except KeyboardInterrupt:
+        sys.exit(0)
