@@ -50,6 +50,7 @@ prepare program tapes using the typewriter.
 
 * [LGP-21 Programming Manual](https://bitsavers.org/pdf/generalPrecision/LGP-21/LGP-21_Programming_Manual_1963.pdf)
 * [LGP-21 Reference Manual](https://bitsavers.org/pdf/generalPrecision/LGP-21/LGP-21_Reference_Manual_1963.pdf)
+* [LGP-21 Coding Sheet](doc/LGP-21-Coding-Sheet.pdf)
 * [Program Input Routine Bootstrap Process](doc/bootstrap.md)
 
 ## Converting tapes
