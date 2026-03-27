@@ -175,6 +175,26 @@ class NegExpression(UnaryExpression):
         else:
             return 'error', None
 
+        '''
+Float shift-right expressions.  Divides a float literal by a power of two.
+e.g. 3.14159 >> 2 yields 3.14159 / 4
+'''
+class ShiftRightFloatExpression(BinaryExpression):
+    def __init__(self, left, right):
+        super().__init__('shr_float', left, right)
+
+    def eval(self, context):
+        left = self.left.eval(context)
+        right = self.right.eval(context)
+        if left[0] == 'float' and (right[0] == 'int' or right[0] == 'address'):
+            return 'float', left[1] / (2 ** right[1])
+        elif left[0] == 'undef':
+            return left
+        elif right[0] == 'undef':
+            return right
+        else:
+            return 'error', None
+
 '''
 Label reference.
 '''
@@ -232,8 +252,14 @@ def parse_basic_expression(code, location, tokens):
             # Reference to a named label.
             return LabelExpression(code.get_label(token[1], location)), tokens
         case 'FLOAT':
-            # Floating-point constant.
-            return FloatExpression(float(token[1])), tokens
+            # Floating-point constant, optionally followed by a shift-right.
+            expr = FloatExpression(float(token[1]))
+            if len(tokens) > 0 and tokens[0][0] == 'SHR':
+                right, tokens = parse_basic_expression(code, location, tokens[1:])
+                if right is None:
+                    return right, tokens
+                return ShiftRightFloatExpression(expr, right), tokens
+            return expr, tokens
         case 'ADDRESS':
             # LGP-21 track/sector address constant like 0300, 6317, etc.
             dec = codegen.dec_to_hex_address(int(token[1], 10))
@@ -328,6 +354,7 @@ tokens = [
     ('STR2',    r"'([^\\']|\\[bnt'" + r'"' + r"])*'"),
     ('ADD',     r'\+'),
     ('SUB',     r'-'),
+    ('SHR',     r'>>'),
     ('PC',      r'\*'),
     ('WS',      r'\s'),
     ('COMMA',   r','),
