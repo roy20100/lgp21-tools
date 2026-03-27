@@ -2,11 +2,11 @@
     .entry start
 
 iLow:
-    .dw -1.1 >> 4
+    .dw -1.15 >> 4
 iHigh:
     .dw 1.1 >> 4
 iStep:
-    .dw 0.1 >> 4
+    .dw 0.05 >> 4
 iPos:
     .dw 0
 
@@ -15,7 +15,7 @@ rLow:
 rHigh:
     .dw 0.52 >> 4
 rStep:
-    .dw 0.04 >> 4
+    .dw 0.020 >> 4
 rPos:
     .dw 0;
 
@@ -24,7 +24,7 @@ eol:
 dot:
     .dw "."
 star:
-    .dw "x"
+    .dw " "
                     
 start:              ;Start a new fractal
     ld  iLow        ;Reset iPos to iLow
@@ -54,7 +54,7 @@ nextChar:
 
 
 max:
-    .dw #32
+    .dw #36
 dec:
     .dw #2
 itr:
@@ -127,6 +127,13 @@ in:
     jmp nextChar
 
 out:
-    ld  dot
-    pr6
+    ld  itr
+    shl4
+    shl4
+    shl4
+    shl4
+    shl4
+    shl4
+    shl4
+    pr4
     jmp nextChar
