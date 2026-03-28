@@ -39,11 +39,18 @@ parser.add_argument(
     action='store_true',
     help='halt stops the emulator'
 )
+parser.add_argument(
+    '-r', '--randomize-memory',
+    action='store_true',
+    help='randomize the initial memory contents'
+)
 args = parser.parse_args()
 
 with machine.Machine() as mach:
     if args.verbose:
         mach.verbose = True
+    if args.randomize_memory:
+        mach.randomize_memory()
     mach.bootstrap()
     if args.tape:
         mach.load_tape(args.tape, binary=args.binary)

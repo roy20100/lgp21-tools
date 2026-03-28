@@ -19,6 +19,7 @@
 # DEALINGS IN THE SOFTWARE.
 
 import readchar
+import random
 import lgp21.charset as charset
 import lgp21.dis as dis
 import lgp21.hexadecimal as hexadecimal
@@ -385,6 +386,14 @@ class Machine:
             if word:
                 inst = hexadecimal.to_hex(word, min_digits=1, order_codes=True)
                 print("%02d%02d  %8s'  %s" % (address / 64, address % 64, inst, dis.disassemble(word)))
+
+    '''
+    Randomize the memory contents.
+    '''
+    def randomize_memory(self):
+        random.seed()
+        for address in range(0, len(self.memory)):
+            self.memory[address] = random.randint(0, 0xFFFFFFFF)
 
     '''
     Internal handling for input instructions.
