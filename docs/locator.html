@@ -11,36 +11,38 @@
     background-color: #f0f0f0;
   }
 
-  .container {
-    position: relative;
-    /* Set these to the actual width/height of your PNGs */
-    width: 400px; 
-    height: 400px;
-  }
+.container {
+  position: relative;
+  width: 400px; 
+  height: 400px;
+  /* Centering magic starts here */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #eee; /* Temporary: helps you see the container bounds */
+}
 
-  .base-layer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: auto;
-    z-index: 1;
-    pointer-events: none; /* Let clicks pass through to the inner layer if needed */
-  }
+.base-layer {
+  position: absolute;
+  width: 100%; /* Outer stays full size */
+  height: auto;
+  z-index: 1;
+  pointer-events: none;
+}
 
-  #rotating-layer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 80%;
-    height: auto;
-    z-index: 2;
-    cursor: grab;
-    /* Crucial for mobile: prevents the page from scrolling while you spin */
-    touch-action: none; 
-    user-select: none;
-    -webkit-user-drag: none;
-  }
+#rotating-layer {
+  position: absolute;
+  width: 75%;
+  height: auto;
+  z-index: 2;
+  cursor: grab;
+  touch-action: none; 
+  user-select: none;
+  -webkit-user-drag: none;
+  
+  /* Ensure it rotates around its own center */
+  transform-origin: center center;
+}
 
   #rotating-layer:active {
     cursor: grabbing;
