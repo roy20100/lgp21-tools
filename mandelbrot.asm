@@ -72,7 +72,7 @@ yy:
 twoF:
     .dw 2.0 >> 4
 fourF:
-    .dw $7ffffffe
+    .dw 4.0 >> 4
 
 compute:
     ld  max         ;itr = max
@@ -133,7 +133,7 @@ out:
     shl4
     shl4
     shl4
-    shl4
-    shl4
+    shl6
+    ;shl4
     pr4
     jmp nextChar
