@@ -2,11 +2,11 @@
     .entry start
 
 iLow:
-    .dw -1.15 >> 4
+    .dw -1.1 >> 4
 iHigh:
     .dw 1.1 >> 4
 iStep:
-    .dw 0.05 >> 4
+    .dw 0.1 >> 4
 iPos:
     .dw 0
 
@@ -15,7 +15,7 @@ rLow:
 rHigh:
     .dw 0.52 >> 4
 rStep:
-    .dw 0.020 >> 4
+    .dw 0.040 >> 4
 rPos:
     .dw 0;
 
@@ -42,6 +42,7 @@ newLine:            ;Start a new line
 
     sub iHigh       ;If iPos > iHigh goto start
     jnt nextChar    ;else goto nextChar:
+    z 0300
     hlt             ; TODO jmp start
 nextChar:
     ld  rPos        ;rPos += rStep
@@ -54,7 +55,7 @@ nextChar:
 
 
 max:
-    .dw #36
+    .dw #28
 dec:
     .dw #2
 itr:
@@ -132,7 +133,7 @@ out:
     shl4
     shl4
     shl4
-    shl4
+    shl6
     shl6
     ;shl4
     pr4
