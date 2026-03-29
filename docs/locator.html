@@ -1,107 +1,137 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<style>
-  body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    background-color: #f0f0f0;
-  }
+    <meta charset="UTF-8">
+    <!-- Updated viewport to allow user scaling/zooming -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>LGP 21 Locator</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            background-color: #e0e0e0;
+            font-family: sans-serif;
+            padding: 20px 0;
+            box-sizing: border-box;
+        }
 
-.container {
-  position: relative;
-  width: 400px; 
-  height: 400px;
-  /* Centering magic starts here */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #eee; /* Temporary: helps you see the container bounds */
-}
+        .container {
+            position: relative;
+            width: 95vw;
+            max-width: 800px; 
+            aspect-ratio: 1 / 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: auto;
+        }
 
-.base-layer {
-  position: absolute;
-  width: 100%; /* Outer stays full size */
-  height: auto;
-  z-index: 1;
-  pointer-events: none;
-}
+        /* The static outer ring */
+        .outer-ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            pointer-events: none;
+            z-index: 1;
+        }
 
-#rotating-layer {
-  position: absolute;
-  width: 75%;
-  height: auto;
-  z-index: 2;
-  cursor: grab;
-  touch-action: none; 
-  user-select: none;
-  -webkit-user-drag: none;
-  
-  /* Ensure it rotates around its own center */
-  transform-origin: center center;
-}
+        /* The rotatable inner dial */
+        #inner-dial {
+            position: absolute;
+            width: 75%;
+            height: 75%;
+            object-fit: contain;
+            z-index: 2;
+            cursor: grab;
+            touch-action: none; 
+            user-select: none;
+            -webkit-user-drag: none;
+            transition: transform 0.05s linear;
+        }
 
-  #rotating-layer:active {
-    cursor: grabbing;
-  }
-</style>
+        #inner-dial:active {
+            cursor: grabbing;
+        }
+    </style>
 </head>
 <body>
 
 <div class="container">
-  <img src="img/locator_outer.png" class="base-layer" />
-  <img src="img/locator_inner.png" id="rotating-layer" />
+    <img src="img/locator_outer.png" class="outer-ring" alt="Outer Template">
+    <img src="img/locator_inner.png" id="inner-dial" alt="Inner Dial">
 </div>
 
 <script>
-  const dial = document.getElementById('rotating-layer');
-  let isDragging = false;
+    const dial = document.getElementById('inner-dial');
+    let isDragging = false;
 
-  const updateRotation = (e) => {
-    if (!isDragging) return;
+    /**
+     * Calculates the angle between the center of the dial and the pointer.
+     */
+    function getAngle(clientX, clientY) {
+        const rect = dial.getBoundingClientRect();
+        // Calculate center relative to viewport to match clientX/Y
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
 
-    // 1. Get dimensions of the dial
-    const rect = dial.getBoundingClientRect();
-    
-    // 2. Find the center point
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
+        const radians = Math.atan2(clientY - centerY, clientX - centerX);
+        return radians * (180 / Math.PI);
+    }
 
-    // 3. Get current pointer position (Support mouse or touch)
-    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    function handleMove(e) {
+        if (!isDragging) return;
 
-    // 4. Calculate angle using Math.atan2(y, x)
-    const deltaX = clientX - centerX;
-    const deltaY = clientY - centerY;
-    const radians = Math.atan2(deltaY, deltaX);
-    
-    // 5. Convert to degrees
-    const degrees = radians * (180 / Math.PI);
+        // Support both Mouse and Touch events
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
 
-    // Apply the rotation
-    // Note: If your 'inner' image points up by default, 
-    // you might need to add 90 to the degrees: `rotate(${degrees + 90}deg)`
-    dial.style.transform = `rotate(${degrees}deg)`;
-  };
+        const degrees = getAngle(clientX, clientY);
+        
+        // Apply rotation (offset by 90 to align naturally with the image orientation)
+        dial.style.transform = `rotate(${degrees + 90}deg)`;
+    }
 
-  // Interaction Listeners
-  const startDrag = () => isDragging = true;
-  const stopDrag = () => isDragging = false;
+    function startDrag(e) {
+        // Multi-touch check for zoom gestures
+        if (e.touches && e.touches.length > 1) {
+            isDragging = false;
+            return;
+        }
+        
+        isDragging = true;
+        handleMove(e);
+    }
 
-  // Mouse Events
-  dial.addEventListener('mousedown', startDrag);
-  window.addEventListener('mousemove', updateRotation);
-  window.addEventListener('mouseup', stopDrag);
+    function stopDrag() {
+        isDragging = false;
+    }
 
-  // Touch Events
-  dial.addEventListener('touchstart', startDrag);
-  window.addEventListener('touchmove', updateRotation);
-  window.addEventListener('touchend', stopDrag);
+    // Pointer listeners for the dial
+    dial.addEventListener('mousedown', startDrag);
+    dial.addEventListener('touchstart', (e) => {
+        // Only prevent default (scrolling) if we are actually starting a drag
+        if (e.touches.length === 1) {
+            startDrag(e);
+        }
+    }, { passive: true });
 
+    // Global listeners for movement and release
+    window.addEventListener('mousemove', handleMove);
+    window.addEventListener('touchmove', (e) => {
+        if (isDragging) {
+            // Prevent scrolling only while actively dragging the dial
+            if (e.cancelable) e.preventDefault();
+            handleMove(e);
+        }
+    }, { passive: false });
+
+    window.addEventListener('mouseup', stopDrag);
+    window.addEventListener('touchend', stopDrag);
+    window.addEventListener('touchcancel', stopDrag);
 </script>
 
 </body>
