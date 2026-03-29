@@ -39,7 +39,7 @@
 
         #inner-dial {
             position: absolute;
-            width: 75%;
+            width: 75%; /* Updated scale to 75% as requested */
             height: 75%;
             object-fit: contain;
             z-index: 2;
@@ -64,16 +64,19 @@
 <script>
     const dial = document.getElementById('inner-dial');
     let isDragging = false;
+    
+    // Variables to track relative rotation
+    let startAngle = 0;
+    let currentRotation = 0;
 
     /**
-     * Calculates the angle between the center of the dial and the pointer.
+     * Calculates the absolute angle of the pointer relative to the dial center.
      */
-    function getAngle(clientX, clientY) {
+    function getPointerAngle(clientX, clientY) {
         const rect = dial.getBoundingClientRect();
         const centerX = rect.left + rect.width / 2;
         const centerY = rect.top + rect.height / 2;
 
-        // Math.atan2 returns radians from -PI to PI
         const radians = Math.atan2(clientY - centerY, clientX - centerX);
         return radians * (180 / Math.PI);
     }
@@ -81,32 +84,45 @@
     function handleMove(e) {
         if (!isDragging) return;
 
-        // Use pointer coordinates for both mouse and touch
         const clientX = e.clientX || (e.touches && e.touches[0].clientX);
         const clientY = e.clientY || (e.touches && e.touches[0].clientY);
 
         if (clientX === undefined || clientY === undefined) return;
 
-        const degrees = getAngle(clientX, clientY);
+        // Calculate the new angle of the pointer
+        const moveAngle = getPointerAngle(clientX, clientY);
         
-        // Apply rotation immediately. 
-        // We add 90 because the image's "up" is 90 degrees offset from the 0-radian X-axis.
-        dial.style.transform = `rotate(${degrees + 90}deg)`;
+        // Calculate the delta since the start of the drag and apply it to the previous rotation
+        const delta = moveAngle - startAngle;
+        const totalRotation = currentRotation + delta;
+        
+        dial.style.transform = `rotate(${totalRotation}deg)`;
     }
 
     function startDrag(e) {
-        // Allow multi-touch for zooming
         if (e.touches && e.touches.length > 1) {
             isDragging = false;
             return;
         }
         
         isDragging = true;
-        handleMove(e);
+        
+        // Capture the initial pointer angle at the moment of click/touch
+        const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+        const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+        startAngle = getPointerAngle(clientX, clientY);
     }
 
     function stopDrag() {
-        isDragging = false;
+        if (isDragging) {
+            // Store the final rotation so the next drag starts from this position
+            const transform = dial.style.transform;
+            const match = transform.match(/rotate\(([^deg]+)deg\)/);
+            if (match) {
+                currentRotation = parseFloat(match[1]);
+            }
+            isDragging = false;
+        }
     }
 
     // Interaction Listeners
@@ -117,11 +133,9 @@
         }
     }, { passive: true });
 
-    // Window-level listeners catch movement even if the pointer leaves the dial area
     window.addEventListener('mousemove', handleMove);
     window.addEventListener('touchmove', (e) => {
         if (isDragging) {
-            // Prevent page scroll only when actively rotating
             if (e.cancelable) e.preventDefault();
             handleMove(e);
         }
