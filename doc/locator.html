@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+  }
+
+  .container {
+    position: relative;
+    /* Set these to the actual width/height of your PNGs */
+    width: 400px; 
+    height: 400px;
+  }
+
+  .base-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    z-index: 1;
+    pointer-events: none; /* Let clicks pass through to the inner layer if needed */
+  }
+
+  #rotating-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 80%;
+    height: auto;
+    z-index: 2;
+    cursor: grab;
+    /* Crucial for mobile: prevents the page from scrolling while you spin */
+    touch-action: none; 
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+
+  #rotating-layer:active {
+    cursor: grabbing;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <img src="img/locator_outer.png" class="base-layer" />
+  <img src="img/locator_inner.png" id="rotating-layer" />
+</div>
+
+<script>
+  const dial = document.getElementById('rotating-layer');
+  let isDragging = false;
+
+  const updateRotation = (e) => {
+    if (!isDragging) return;
+
+    // 1. Get dimensions of the dial
+    const rect = dial.getBoundingClientRect();
+    
+    // 2. Find the center point
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+
+    // 3. Get current pointer position (Support mouse or touch)
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+    // 4. Calculate angle using Math.atan2(y, x)
+    const deltaX = clientX - centerX;
+    const deltaY = clientY - centerY;
+    const radians = Math.atan2(deltaY, deltaX);
+    
+    // 5. Convert to degrees
+    const degrees = radians * (180 / Math.PI);
+
+    // Apply the rotation
+    // Note: If your 'inner' image points up by default, 
+    // you might need to add 90 to the degrees: `rotate(${degrees + 90}deg)`
+    dial.style.transform = `rotate(${degrees}deg)`;
+  };
+
+  // Interaction Listeners
+  const startDrag = () => isDragging = true;
+  const stopDrag = () => isDragging = false;
+
+  // Mouse Events
+  dial.addEventListener('mousedown', startDrag);
+  window.addEventListener('mousemove', updateRotation);
+  window.addEventListener('mouseup', stopDrag);
+
+  // Touch Events
+  dial.addEventListener('touchstart', startDrag);
+  window.addEventListener('touchmove', updateRotation);
+  window.addEventListener('touchend', stopDrag);
+
+</script>
+
+</body>
+</html>

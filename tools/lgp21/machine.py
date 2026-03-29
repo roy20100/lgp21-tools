@@ -238,7 +238,7 @@ class Machine:
         # Print the instruction - for debugging.
         if self.verbose:
             inststr = hexadecimal.to_hex(inst, min_digits=1, order_codes=True)
-            print("A = %08x, overflow = %d" % (self.A, int(self.overflow)))
+            print("A = %08x, overflow = %d wt = %d dwt = %d" % (self.A, int(self.overflow),self.word_times,time))
             print("%02d%02d  %8s'  %s" % (iaddr / 64, iaddr % 64, inststr, dis.disassemble(inst)))
 
         # Determine what needs to be done.
