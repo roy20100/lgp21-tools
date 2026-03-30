@@ -38,11 +38,11 @@ If "advance" is greater than zero, advance that many locations.
 '''
 def next_disk_location(loc, advance=1):
     global optimum_address_locator
+    pos=optimum_address_locator.index(loc&127)
     while advance >= 1:
-        loc = (loc + 1) & 127
-        loc = optimum_address_locator[loc]
+        pos = (pos + 1) & 127
         advance -= 1
-    return loc
+    return optimum_address_locator[pos]
 
 '''
 Get the number of word times for moving from a source address to a
@@ -53,19 +53,15 @@ def word_times_for_addressing(src, dest):
 
     # Find the starting position.
     posn = optimum_address_locator.index(src & 127)
-    start = posn
-
+    poscount = 0
     # Scan forward until we find the destination.
     while optimum_address_locator[posn] != (dest & 127):
         posn = (posn + 1) & 127
-
+        poscount += 1
     # Determine the number of word times, accounting for circular rotation.
     # If the source and destination were the same, this will cause a
     # complete disk rotation to happen to get to the destination.
-    if start < posn:
-        return posn - start
-    else:
-        return (posn + 128) - start
+    return poscount
 
 '''
 Get the number of word times for executing a specific instruction
@@ -80,16 +76,17 @@ rotational disk location after the instruction finishes executing.
 def word_times_for_insn(disk_loc, PC, word):
     # Phase 1: Seek forward to find the PC if we were not lucky
     # enough to have it already underneath the read head.
+    print(f'dl:{disk_loc}',end=" > ")
     if disk_loc != (PC & 127):
         time = word_times_for_addressing(disk_loc, PC)
     else:
         time = 0
     disk_loc = PC & 127
-
+    print(f'dl:{disk_loc}({time})',end=" > ")
     # Phase 2: One word time for the instruction fetch.
     time += 1
     disk_loc = next_disk_location(disk_loc)
-
+    print(f'dl:{disk_loc}({time})',end=" > ")
     # Phase 3 and 4: Depends upon the type of instruction.
     addr = (word & insn.ADDRESS_MASK) >> insn.ADDRESS_SHIFT
     match word & insn.ORDER_MASK:
@@ -164,6 +161,6 @@ def word_times_for_insn(disk_loc, PC, word):
             # will deal with taken branches.
             time += 2
             disk_loc = next_disk_location(disk_loc, advance=2)
-
+    print(f'dl:{disk_loc}({time})')
     # Done!
     return (time, disk_loc)
