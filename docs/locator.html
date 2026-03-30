@@ -39,7 +39,7 @@
 
         #inner-dial {
             position: absolute;
-            width: 75%; /* Updated scale to 75% as requested */
+            width: 75%;
             height: 75%;
             object-fit: contain;
             z-index: 2;
@@ -47,6 +47,7 @@
             touch-action: none; 
             user-select: none;
             -webkit-user-drag: none;
+            border-radius: 50%;
         }
 
         #inner-dial:active {
@@ -65,57 +66,83 @@
     const dial = document.getElementById('inner-dial');
     let isDragging = false;
     
-    // Variables to track relative rotation
     let startAngle = 0;
     let currentRotation = 0;
 
     /**
-     * Calculates the absolute angle of the pointer relative to the dial center.
+     * Helper to get pointer coordinates across mouse and touch
      */
-    function getPointerAngle(clientX, clientY) {
+    function getPointerCoords(e) {
+        return {
+            x: e.clientX || (e.touches && e.touches[0].clientX),
+            y: e.clientY || (e.touches && e.touches[0].clientY)
+        };
+    }
+
+    /**
+     * Calculates the absolute angle and distance from the center of the dial.
+     */
+    function getPointerStats(clientX, clientY) {
         const rect = dial.getBoundingClientRect();
         const centerX = rect.left + rect.width / 2;
         const centerY = rect.top + rect.height / 2;
 
-        const radians = Math.atan2(clientY - centerY, clientX - centerX);
-        return radians * (180 / Math.PI);
+        const dx = clientX - centerX;
+        const dy = clientY - centerY;
+        
+        const radians = Math.atan2(dy, dx);
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        
+        return {
+            angle: radians * (180 / Math.PI),
+            distance: distance,
+            radius: rect.width / 2
+        };
     }
 
     function handleMove(e) {
         if (!isDragging) return;
 
-        const clientX = e.clientX || (e.touches && e.touches[0].clientX);
-        const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+        const coords = getPointerCoords(e);
+        if (coords.x === undefined || coords.y === undefined) return;
 
-        if (clientX === undefined || clientY === undefined) return;
-
-        // Calculate the new angle of the pointer
-        const moveAngle = getPointerAngle(clientX, clientY);
+        const stats = getPointerStats(coords.x, coords.y);
         
-        // Calculate the delta since the start of the drag and apply it to the previous rotation
-        const delta = moveAngle - startAngle;
+        // Calculate the delta since the start of the drag
+        const delta = stats.angle - startAngle;
         const totalRotation = currentRotation + delta;
         
         dial.style.transform = `rotate(${totalRotation}deg)`;
     }
 
     function startDrag(e) {
+        // Multi-touch check
         if (e.touches && e.touches.length > 1) {
             isDragging = false;
             return;
         }
         
-        isDragging = true;
-        
-        // Capture the initial pointer angle at the moment of click/touch
-        const clientX = e.clientX || (e.touches && e.touches[0].clientX);
-        const clientY = e.clientY || (e.touches && e.touches[0].clientY);
-        startAngle = getPointerAngle(clientX, clientY);
+        const coords = getPointerCoords(e);
+        const stats = getPointerStats(coords.x, coords.y);
+
+        // CHECK HIT RANGE: Is the pointer inside the inscribed circle?
+        if (stats.distance <= stats.radius) {
+            isDragging = true;
+            startAngle = stats.angle;
+            
+            // Re-capture current rotation from style to ensure continuity
+            const transform = dial.style.transform;
+            const match = transform.match(/rotate\(([^deg]+)deg\)/);
+            if (match) {
+                currentRotation = parseFloat(match[1]);
+            }
+        } else {
+            isDragging = false;
+        }
     }
 
     function stopDrag() {
         if (isDragging) {
-            // Store the final rotation so the next drag starts from this position
             const transform = dial.style.transform;
             const match = transform.match(/rotate\(([^deg]+)deg\)/);
             if (match) {
@@ -128,6 +155,7 @@
     // Interaction Listeners
     dial.addEventListener('mousedown', startDrag);
     dial.addEventListener('touchstart', (e) => {
+        // Note: we don't preventDefault here to allow scrolling if the touch was outside the circle
         if (e.touches.length === 1) {
             startDrag(e);
         }
@@ -136,6 +164,7 @@
     window.addEventListener('mousemove', handleMove);
     window.addEventListener('touchmove', (e) => {
         if (isDragging) {
+            // ONLY prevent page scroll if we successfully started a drag inside the circle
             if (e.cancelable) e.preventDefault();
             handleMove(e);
         }
