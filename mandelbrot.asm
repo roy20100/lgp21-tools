@@ -7,8 +7,7 @@ iHigh:
     .dw 1.1 >> 4
 iStep:
     .dw 0.1 >> 4
-iPos:
-    .dw 0
+
 
 rLow:
     .dw -2.1 >> 4
@@ -16,8 +15,7 @@ rHigh:
     .dw 0.52 >> 4
 rStep:
     .dw 0.040 >> 4
-rPos:
-    .dw 0;
+
 
 eol:
     .dw "\n"
@@ -27,6 +25,7 @@ star:
     .dw " "
                     
 start:              ;Start a new fractal
+    z 0300
     ld  iLow        ;Reset iPos to iLow
     st  iPos
 newLine:            ;Start a new line
@@ -42,7 +41,6 @@ newLine:            ;Start a new line
 
     sub iHigh       ;If iPos > iHigh goto start
     jnt nextChar    ;else goto nextChar:
-    z 0300
     hlt             ; TODO jmp start
 nextChar:
     ld  rPos        ;rPos += rStep
@@ -53,28 +51,37 @@ nextChar:
     jnt compute
     jmp newLine
 
-
+	.org 1032
 max:
     .dw #28
-dec:
-    .dw #2
-itr:
+	.org 1043
+y:
+    .dw 0
+pad1:
+	.dw 0
+iPos:
+    .dw 0
+yy:
     .dw 0
 x:
     .dw 0
-y:
+itr:
+    .dw 0
+dec:
+    .dw #2
+xx:                 ;1050
+    .dw 0
+pad3:
+	.dw 0
+rPos:
     .dw 0
 xTemp:
-    .dw 0
-xx:
-    .dw 0
-yy:
     .dw 0
 twoF:
     .dw 2.0 >> 4
 fourF:
     .dw 4.0 >> 4
-
+	.org 1060
 compute:
     ld  max         ;itr = max
     stc itr
@@ -102,20 +109,28 @@ iterate:
     mulh y
     shl4
     add iPos
+	jmp 1121
+.1121:
     st y
-
+	jmp 1124
+.1124:
                     ; x := xtemp
     ld xTemp
     st x
 
     ld itr          ;Decrement Iterator
     sub dec
+	jmp 1133
+.1133:
     st itr
 
     jnt in         ;Iterator went negative, we are IN
 
     ld xx
+	jmp 1138
+.1138:
     add yy
+	nop
     sub fourF
     jnt iterate         ;Left the circle, we are out
 

@@ -76,17 +76,17 @@ rotational disk location after the instruction finishes executing.
 def word_times_for_insn(disk_loc, PC, word):
     # Phase 1: Seek forward to find the PC if we were not lucky
     # enough to have it already underneath the read head.
-    print(f'dl:{disk_loc}',end=" > ")
+    #print(f'dl:{disk_loc}',end=" > ")
     if disk_loc != (PC & 127):
         time = word_times_for_addressing(disk_loc, PC)
     else:
         time = 0
     disk_loc = PC & 127
-    print(f'dl:{disk_loc}({time})',end=" > ")
+    #print(f'dl:{disk_loc}({time})',end=" > ")
     # Phase 2: One word time for the instruction fetch.
     time += 1
     disk_loc = next_disk_location(disk_loc)
-    print(f'dl:{disk_loc}({time})',end=" > ")
+    #print(f'dl:{disk_loc}({time})',end=" > ")
     # Phase 3 and 4: Depends upon the type of instruction.
     addr = (word & insn.ADDRESS_MASK) >> insn.ADDRESS_SHIFT
     match word & insn.ORDER_MASK:
@@ -161,6 +161,6 @@ def word_times_for_insn(disk_loc, PC, word):
             # will deal with taken branches.
             time += 2
             disk_loc = next_disk_location(disk_loc, advance=2)
-    print(f'dl:{disk_loc}({time})')
+    #print(f'dl:{disk_loc}({time})')
     # Done!
     return (time, disk_loc)
