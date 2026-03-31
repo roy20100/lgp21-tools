@@ -186,6 +186,44 @@ class Machine:
         self.tape_posn = 0
 
     '''
+    Bootstraps the machine from an external tape, bypassing the PIR.
+
+    It is assumed that the tape is for the typewriter, not the tape reader.
+    '''
+    def bootstrap_from_tape(self, filename, binary=False, raw_data=''):
+        # Read the contents of the tape into memory.
+        if len(raw_data) > 0:
+            self.pre_typed_input = self.pre_typed_input + charset.io_ascii_to_6bit(raw_data, as_list=True, end_in_lower=True)
+        elif binary:
+            with open(filename, 'rb') as file:
+                for b in file.read():
+                    self.pre_typed_input.append(charset.io_punch_to_6bit(int(b)))
+        else:
+            with open(filename, 'r') as file:
+                self.pre_typed_input = self.pre_typed_input + charset.io_ascii_to_6bit(file.read(), as_list=True, end_in_lower=True)
+
+        # Read pairs of words for the instruction and data to execute.
+        # Stop once we see a jump instruction, as that indicates that the
+        # manual portion of the bootstrap process has completed.
+        while True:
+            self._input(2, 4)
+            inst = self.A
+            self._input(2, 4)
+            if (inst & insn.ORDER_MASK) == insn.UNCOND:
+                # We have reached the unconditional jump in the bootstrap.
+                self.C = (inst & insn.ADDRESS_MASK) >> insn.ADDRESS_SHIFT
+                break
+            if (inst & insn.ORDER_MASK) != insn.CLEAR:
+                # The only regular instruction we accept is "c".
+                return False
+            self.memory[(inst & insn.ADDRESS_MASK) >> insn.ADDRESS_SHIFT] = self.A
+            self.A = 0
+
+        # Take the machine out of halt to prepare to execute the bootstrap.
+        self.halted = False
+        return True
+
+    '''
     Set up to load a tape after the current one is exhausted.
 
     If a previous tape was already loaded, this will append the contents

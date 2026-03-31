@@ -49,24 +49,42 @@ parser.add_argument(
     action='store_true',
     help='print the estimated runtime on exit'
 )
+parser.add_argument(
+    '-B', '--bootstrap',
+    action='store_true',
+    help='bootstrap from the tape, do not load PIR'
+)
 args = parser.parse_args()
+if args.bootstrap:
+    # Direct bootstrap always stops on halt.
+    args.stop_on_halt = True
 
 with machine.Machine() as mach:
     if args.verbose:
         mach.verbose = True
     if args.randomize_memory:
         mach.randomize_memory()
-    mach.bootstrap()
+    if not args.bootstrap:
+        # No custom bootstrap, so do the standard bootstrap.
+        mach.bootstrap()
     if args.tape:
-        mach.load_tape(args.tape, binary=args.binary)
+        if args.bootstrap:
+            mach.bootstrap_from_tape(args.tape, binary=args.binary)
+        else:
+            mach.load_tape(args.tape, binary=args.binary)
     if args.assembly_source:
         # Assemble and load the supplied source file.
         code = codegen.CodeGenerator()
         assem.assemble_input(code, args.assembly_source)
         if code.errors or not code.resolve():
             sys.exit(1)
-        tape_data = code.to_tape()
-        mach.pre_typed_input += charset.io_ascii_to_6bit(tape_data, as_list=True)
+        if args.bootstrap:
+            # Bootstrap the assembled binary straight in.
+            tape_data = code.to_bootstrap_tape()
+            mach.bootstrap_from_tape('', raw_data=tape_data)
+        else:
+            tape_data = code.to_tape()
+            mach.pre_typed_input += charset.io_ascii_to_6bit(tape_data, as_list=True)
     mach.BS = 32 # Auto-run when a "." command is seen.
     try:
         while True:
