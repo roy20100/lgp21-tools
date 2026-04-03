@@ -41,7 +41,32 @@ parser.add_argument(
     default=8,
     help='set the number of words per line on the output tape'
 )
+parser.add_argument(
+    '-B', '--bootstrap',
+    action='store_true',
+    help='generate bootstrap code to load without PIR'
+)
+parser.add_argument(
+    '-C', '--compact-bootstrap',
+    action='store_true',
+    help='generate compact bootstrap code'
+)
+parser.add_argument(
+    '-A', '--bootstrap-address',
+    type=str,
+    default='6300',
+    help='set the address for the bootstrap, default is 6300'
+)
+parser.add_argument(
+    '-D', '--bootstrap-device',
+    type=int,
+    default=2,
+    help='set the device for the bootstrap, 0 or 2, default is 2'
+)
 args = parser.parse_args()
+if (args.bootstrap or args.compact_bootstrap) and args.relocatable:
+    print('Cannot use -r in bootstrap mode')
+    sys.exit(1)
 
 # Create a code generator for the output.
 code = codegen.CodeGenerator()
@@ -53,7 +78,11 @@ if code.errors or not code.resolve():
     sys.exit(1)
 
 # Generate the output tape image.
-tape_ascii = code.to_tape(max_words_per_line=args.words_per_line)
+if args.bootstrap or args.compact_bootstrap:
+    ba = codegen.dec_to_hex_address(int(args.bootstrap_address))
+    tape_ascii = code.to_bootstrap_tape(bootstrap_addr=ba, device=args.bootstrap_device, max_words_per_line=args.words_per_line, compact=args.compact_bootstrap)
+else:
+    tape_ascii = code.to_tape(max_words_per_line=args.words_per_line)
 try:
     if args.binary:
         tape_6bit = charset.io_ascii_to_6bit(tape_ascii, as_list=True)
@@ -67,60 +96,3 @@ except OSError:
     code.error(args.output_filename, 'could not write to output file')
     sys.exit(1)
 sys.exit(0)
-
-# Test code for the CodeGenerator class that prints "he11orld" only.
-# This will be replaced with a proper assembler later.
-
-location = 'filename.asm:1'
-cg.PC = codegen.dec_to_hex_address(1000)
-
-start = cg.label_for_PC('start', location)
-cg.set_entry_point(start)
-
-msg = cg.get_label('msg', location)
-i = codegen.Instruction(location)
-i.set_order(insn.BRING)
-i.set_label(msg)
-cg.add_instruction(i)
-
-for n in range(0, 5):
-    i = codegen.Instruction(location)
-    i.set_order(insn.PRINT6)
-    i.set_address(codegen.dec_to_hex_address(200))
-    cg.add_instruction(i)
-    i = codegen.Instruction(location)
-    if i != 4:
-        i.set_order(insn.INPUT6)
-        i.set_address(codegen.dec_to_hex_address(6200))
-        cg.add_instruction(i)
-
-i.set_order(insn.BRING)
-i.set_label(msg)
-i.set_offset(1) # msg+1
-cg.add_instruction(i)
-
-for n in range(0, 3):
-    i = codegen.Instruction(location)
-    i.set_order(insn.PRINT6)
-    i.set_address(codegen.dec_to_hex_address(200))
-    cg.add_instruction(i)
-    i = codegen.Instruction(location)
-    if i != 2:
-        i.set_order(insn.INPUT6)
-        i.set_address(codegen.dec_to_hex_address(6200))
-        cg.add_instruction(i)
-
-i = codegen.Instruction(location)
-i.set_order(insn.STOP)
-cg.add_instruction(i)
-
-cg.label_for_PC('msg', location)
-i = codegen.Instruction(location)
-i.set_literal(0xC651868C)
-cg.add_instruction(i)
-i = codegen.Instruction(location)
-i.set_literal(0x34655000)
-cg.add_instruction(i)
-
-cg.resolve()
-print(cg.to_tape(), end='')

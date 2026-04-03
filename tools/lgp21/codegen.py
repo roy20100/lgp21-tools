@@ -325,6 +325,160 @@ class CodeGenerator:
         return tape
 
     '''
+    Converts the final program into a self-bootstraping tape image in ASCII.
+    It is assumed that resolve() has already been run successfully.
+
+    "bootstrap_addr" is the address to write the bootstrap to, usually track 63.
+    "device" should be 0 for the tape reader or 2 for the typewriter.
+    '''
+    def to_bootstrap_tape(self, bootstrap_addr=63*64, device=2, max_words_per_line=8, compact=False):
+        # Find the min and max addresses that are occupied by the program.
+        min_addr = 0
+        max_addr = 4095
+        while min_addr < 4096 and not can_emit(self.memory[min_addr]):
+            min_addr += 1
+        while max_addr >= 0 and not can_emit(self.memory[max_addr]):
+            max_addr -= 1
+        if min_addr > max_addr:
+            # Program is empty.
+            return ''
+
+        #
+        # Build the part of the bootstrap that is manually entered
+        # at the nominal location of track 63, sector 0:
+        #
+        #   000c6300'800i0200'
+        #   000c6301'000c6303'
+        #   000c6302'800i0200'
+        #   000u6300'normal        '
+        #
+        words = [
+            0x000D0000 + (bootstrap_addr << insn.ADDRESS_SHIFT),
+            0x80040000 + (device << 8),
+            0x000D0000 + ((bootstrap_addr + 1) << insn.ADDRESS_SHIFT),
+            0x000D0000 + ((bootstrap_addr + 3) << insn.ADDRESS_SHIFT),
+            0x000D0000 + ((bootstrap_addr + 2) << insn.ADDRESS_SHIFT),
+            0x80040000 + (device << 8),
+            0x000A0000 + (bootstrap_addr << insn.ADDRESS_SHIFT)
+        ]
+        word_count = 0
+        tape = ''
+        for word in words:
+            tape += hexadecimal.to_hex(word, order_codes=True) + "'"
+            word_count += 1
+            if word_count >= 2 or word_count >= max_words_per_line:
+                tape += '\n'
+                word_count = 0
+        tape += "normal        '\n\n"
+
+        #
+        # Continue building the bootstrap code:
+        #
+        #   000c6304'u6300'
+        #   000c6305'800i0200'
+        #   000c6306'gwc0000'   ; Replaced with starting address and count.
+        #   000c6307'b6306'
+        #   000c6308's6313'
+        #   000c6309't6312'
+        #   000c6310'c6306'
+        #   000c6311'u6305'
+        #   000c6312'uxxxx'     ; Jump to program entry point (or halt if none).
+        #   000c6313'wwwwj'
+        #   000u6305''
+        #
+        count = max_addr - min_addr
+        if self.entry_point != None:
+            if 'address' in self.entry_point:
+                address = self.entry_point['address']
+            elif 'value' in self.entry_point:
+                address = self.entry_point['value']
+            address = address & 4095
+            entry_point_word = 0x000A0000 + (address << insn.ADDRESS_SHIFT)
+        else:
+            entry_point_word = 0
+        if compact:
+            # Use the compact form of the bootstrap where the main code
+            # is explicitly written using word pairs.
+            words = [
+                0x000D0000 + ((bootstrap_addr + 4) << insn.ADDRESS_SHIFT),
+                0x000A0000 + (bootstrap_addr << insn.ADDRESS_SHIFT),
+            ]
+        else:
+            words = [
+                0x000D0000 + ((bootstrap_addr + 4) << insn.ADDRESS_SHIFT),
+                0x000A0000 + (bootstrap_addr << insn.ADDRESS_SHIFT),
+                0x000D0000 + ((bootstrap_addr + 5) << insn.ADDRESS_SHIFT),
+                0x80040000 + (device << 8),
+                0x000D0000 + ((bootstrap_addr + 6) << insn.ADDRESS_SHIFT),
+                0x000D0000 + (min_addr << insn.ADDRESS_SHIFT) + (count << 20),
+                0x000D0000 + ((bootstrap_addr + 7) << insn.ADDRESS_SHIFT),
+                0x00010000 + ((bootstrap_addr + 6) << insn.ADDRESS_SHIFT),
+                0x000D0000 + ((bootstrap_addr + 8) << insn.ADDRESS_SHIFT),
+                0x000F0000 + ((bootstrap_addr + 13) << insn.ADDRESS_SHIFT),
+                0x000D0000 + ((bootstrap_addr + 9) << insn.ADDRESS_SHIFT),
+                0x000B0000 + ((bootstrap_addr + 12) << insn.ADDRESS_SHIFT),
+                0x000D0000 + ((bootstrap_addr + 10) << insn.ADDRESS_SHIFT),
+                0x000D0000 + ((bootstrap_addr + 6) << insn.ADDRESS_SHIFT),
+                0x000D0000 + ((bootstrap_addr + 11) << insn.ADDRESS_SHIFT),
+                0x000A0000 + ((bootstrap_addr + 5) << insn.ADDRESS_SHIFT),
+                0x000D0000 + ((bootstrap_addr + 12) << insn.ADDRESS_SHIFT),
+                entry_point_word,
+                0x000D0000 + ((bootstrap_addr + 13) << insn.ADDRESS_SHIFT),
+                0x000FFFFC,
+                0x000A0000 + ((bootstrap_addr + 5) << insn.ADDRESS_SHIFT),
+                0x00000000
+            ]
+        word_count = 0
+        first = True
+        for word in words:
+            if first:
+                tape += hexadecimal.to_hex(word, order_codes=True) + "'"
+                first = False
+            elif word == 0x000FFFFC:
+                tape += hexadecimal.to_hex(word, min_digits=0, order_codes=False) + "'"
+            else:
+                tape += hexadecimal.to_hex(word, min_digits=0, order_codes=True) + "'"
+            word_count += 1
+            if word_count >= max_words_per_line:
+                tape += '\n'
+                word_count = 0
+        if word_count > 0:
+            tape += '\n'
+            word_count = 0
+
+        # Append the actual words of the program to the tape.
+        for address in range(min_addr, max_addr+1):
+            inst = self.memory[address]
+            if compact:
+                # Compact form needs a "Cxxxx" instruction to deposit
+                # each word of the program into memory.
+                deposit = 0x000D0000 + (address << insn.ADDRESS_SHIFT)
+                tape += hexadecimal.to_hex(deposit, min_digits=0, order_codes=True) + "'"
+                word_count += 1
+                if word_count >= max_words_per_line:
+                    tape += '\n'
+                    word_count = 0
+            if can_emit(inst):
+                word = inst.word
+                if inst.literal:
+                    tape += hexadecimal.to_hex(word, min_digits=0, order_codes=False) + "'"
+                else:
+                    tape += hexadecimal.to_hex(word, min_digits=0, order_codes=True) + "'"
+            else:
+                # Cannot emit this word, but we need something, so write zero.
+                tape += "'"
+            word_count += 1
+            if word_count >= max_words_per_line:
+                tape += '\n'
+                word_count = 0
+        if compact:
+            # Jump to the program entry point in compact mode.
+            tape += hexadecimal.to_hex(entry_point_word, min_digits=0, order_codes=True) + "''"
+        if word_count > 0:
+            tape += '\n'
+        return tape
+
+    '''
     Report an error.
     '''
     def error(self, location, message):

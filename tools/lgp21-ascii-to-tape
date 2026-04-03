@@ -15,6 +15,10 @@ with open(sys.argv[1], 'wb') as output:
     for filename in sys.argv[2:]:
         with open(filename, mode='r') as file:
             content = file.read()
+            clen = len(content)
+            if clen >= 2 and content[clen-1] == '\n' and content[clen-2] == '~':
+                # Strip spurious EOL after final tape feed symbol.
+                content = content[:-1]
             data = charset.io_ascii_to_6bit(content, as_list=True)
             for b in data:
                 output.write(bytes([charset.io_6bit_to_punch(b)]))

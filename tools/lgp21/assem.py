@@ -346,10 +346,22 @@ Process a single line of assembly source.
 '''
 def assemble_line(code, location, line):
     # Strip comments and whitespace from the line.
-    posn = line.find(';')
-    if posn >= 0:
-        line = line[:posn]
-    line = line.rstrip()
+    # Need to be careful not to treat ; inside a string as a comment.
+    posn = 0
+    quote = 'x'
+    while posn < len(line):
+        ch = line[posn]
+        if ch == ';' and quote == 'x':
+            break
+        elif (ch == '"' or ch == "'") and quote == 'x':
+            quote = ch
+        elif quote != 'x' and ch == quote:
+            quote = 'x'
+        elif quote != 'x' and ch == '\\':
+            if (posn + 1) < len(line):
+                posn += 1
+        posn += 1
+    line = line[:posn].rstrip()
     if len(line) == 0:
         # Ignore empty lines.
         return
