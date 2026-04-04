@@ -102,8 +102,9 @@ and the starting address.  For example:
 The header word is followed by the N data words of the block, and then the
 checksum word.
 
-If a data word has the LSB set, then it indicates that data word should be
-relocated using the `/` modifier.  Otherwise the data word is used as-is.
+If a data word has the LSB set, then it indicates that data word is
+relocatable.  (It is not currently clear how to do the relocation.  The /
+modifier doesn't work).
 
 The checksum word is the sum of the header word and the N words of the block,
 ignoring the LSB in each of the words.
