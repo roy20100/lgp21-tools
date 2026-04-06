@@ -6,6 +6,36 @@ tape images that can be loaded onto a LGP-21 device.  The syntax
 reflects modern assembly code conventions to make the modern
 LGP-21 programmer's job easier.
 
+## Using the assembler
+
+Simplest is to run the assembler on the `.asm` file to generate a `.txt`
+tape image:
+
+    lgp21-assembler output.txt input.asm
+
+If you wish to generate a binary `.ptp` image which is ready to punch on
+paper tape, use the `-b` or `--binary` option:
+
+    lgp21-assembler -b output.ptp input.asm
+
+Other options:
+
+* `-r` or `--relocatable` generates a relocatable image (experimental,
+not completely working yet).
+* `-w NUM` or `--word-per-line NUM` sets the number of words per line
+in the resulting tape image; defaults to 8.
+* `-B` or `--bootstrap` generates bootstrap code to load the tape without PIR.
+The bootstrap occupies 15 words of memory at the bootstrap start address.
+* `-C` or `--compact-bootstrap` generates compact bootstrap code to load the
+tape without PIR.  The bootstrap occupies 5 words of memory at the bootstrap
+start address.
+* `-A ADDR` or `--bootstrap-address ADDR` sets the bootstrap start address;
+defaults to 6300.
+* `-D DEV` or `--boostrap-device DEV` sets the bootstrap device; 0 for the
+tape reader and 2 for the Flexowriter.  The default is 2.
+* `-L LISTFILE` or `--listing LISTFILE` specifies the listing output file.
+By default, no listing is generated.
+
 ## Case sensitivity
 
 Labels and directive names are case-sensitive.  Instruction names are
