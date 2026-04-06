@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 1804 1804" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
+    <g>
+        <circle cx="902" cy="902" r="900" style="fill:white;stroke:rgb(255,0,0);stroke-width:2.08px;"/>
+        <path d="M909.5,170L894.5,170L902,207.5L909.5,170Z" style="fill:rgb(45,41,38);"/>
+        <g>
+            <circle cx="901.854" cy="902" r="30" style="fill:none;stroke:rgb(45,41,38);stroke-width:2.08px;"/>
+            <path d="M864.354,902L939.354,902" style="fill:none;stroke:rgb(45,41,38);stroke-width:2.08px;"/>
+            <path d="M901.854,939.5L901.854,864.5" style="fill:none;stroke:rgb(45,41,38);stroke-width:2.08px;"/>
+        </g>
+        <g transform="matrix(0,-0.858653,0.858653,0,447.018005,1582.595945)">
+            <text x="1658.614px" y="524.984px" style="font-family:'DejaVuSans', 'DejaVu Sans', sans-serif;font-size:26.689px;fill:rgb(45,41,38);">CURRENT</text>
+            <g transform="matrix(26.689086,0,0,26.689086,1776.955792,554.15049)">
+            </g>
+            <text x="1668.662px" y="554.15px" style="font-family:'DejaVuSans', 'DejaVu Sans', sans-serif;font-size:26.689px;fill:rgb(45,41,38);">SECTOR</text>
+        </g>
+        <g>
+            <path d="M1205.887,250.641L1220.165,264.307L1200.543,261.941L1205.887,250.641Z" style="fill:rgb(45,41,38);"/>
+            <path d="M902,902L1041.002,203.19C1098.235,214.575 1153.852,232.947 1206.605,257.894" style="fill:none;stroke:rgb(45,41,38);stroke-width:2.08px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:3;"/>
+            <path d="M1432.307,371.647L902,902L975.545,155.615C1148.203,172.628 1309.623,248.973 1432.307,371.647Z" style="fill:none;stroke:rgb(45,41,38);stroke-width:2.08px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:3;"/>
+            <path d="M373.147,1485.499L902,902L979.223,118.295C1382.287,158.012 1689.5,496.983 1689.5,902C1689.5,1336.633 1336.633,1689.5 902,1689.5C706.505,1689.5 517.999,1616.785 373.147,1485.499Z" style="fill:none;stroke:rgb(45,41,38);stroke-width:2.08px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:3;"/>
+            <path d="M318.588,1485.314L902,902L982.9,80.976C1405.158,122.584 1727,477.697 1727,902C1727,1357.33 1357.33,1727 902,1727C683.173,1727 473.31,1640.062 318.588,1485.314Z" style="fill:none;stroke:rgb(45,41,38);stroke-width:2.08px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:3;"/>
+            <path d="M235.278,1449.164L902,902L986.577,43.657C1428.029,87.155 1764.5,458.41 1764.5,902C1764.5,1378.027 1378.027,1764.5 902,1764.5C643.759,1764.5 399.105,1648.787 235.278,1449.164Z" style="fill:none;stroke:rgb(45,41,38);stroke-width:2.08px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:3;"/>
+            <path id="_1-3" serif:id="1/3" d="M902,902L1583.995,1295.75" style="fill:none;stroke:rgb(45,41,38);stroke-width:2.08px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:3;stroke-dasharray:10.417,4.167,0,0,0,0;"/>
+            <path id="_2-3" serif:id="2/3" d="M902,902L187.529,1314.5" style="fill:none;stroke:rgb(45,41,38);stroke-width:2.08px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:3;stroke-dasharray:10.417,4.167,0,0,0,0;"/>
+            <g transform="matrix(0.866025,0.5,-0.5,0.866025,-514.16401,-208.883232)">
+                <g transform="matrix(22.916667,0,0,22.916667,2551.562814,245.199271)">
+                </g>
+                <text x="2471.657px" y="245.199px" style="font-family:'DejaVuSans', 'DejaVu Sans', sans-serif;font-size:22.917px;fill:rgb(45,41,38);">⅓ REV<tspan x="2544.278px " y="245.199px ">.</tspan></text>
+            </g>
+            <g transform="matrix(0.865789,-0.500409,0.500409,0.865789,-1002.966539,-1075.181572)">
+                <g transform="matrix(23.216432,0,0,23.216432,-47.008328,2658.521146)">
+                </g>
+                <text x="-127.96px" y="2658.521px" style="font-family:'DejaVuSans', 'DejaVu Sans', sans-serif;font-size:23.216px;fill:rgb(45,41,38);">⅔ REV<tspan x="-54.388px " y="2658.521px ">.</tspan></text>
+            </g>
+            <g transform="matrix(1,0,0,1,-747.999963,-283.165527)">
+                <g transform="matrix(0.97856,0.20596,-0.20596,0.97856,137.219199,-358.653437)">
+                    <text x="1791.314px" y="479.772px" style="font-family:'DejaVuSans', 'DejaVu Sans', sans-serif;font-size:22.917px;fill:rgb(45,41,38);">T</text>
+                </g>
+                <g transform="matrix(0.973231,0.22983,-0.22983,0.973231,159.340119,-402.210789)">
+                    <text x="1806.279px" y="482.909px" style="font-family:'DejaVuSans', 'DejaVu Sans', sans-serif;font-size:22.917px;fill:rgb(45,41,38);">&amp;</text>
+                </g>
+                <g transform="matrix(0.967079,0.254478,-0.254478,0.967079,184.096748,-448.366018)">
+                    <text x="1824.954px" y="487.339px" style="font-family:'DejaVuSans', 'DejaVu Sans', sans-serif;font-size:22.917px;fill:rgb(45,41,38);">U</text>
+                </g>
+            </g>
+            <g transform="matrix(1,0,0,1,-747.999963,-318.549833)">
+                <g transform="matrix(0.993614,0.112836,-0.112836,0.993614,63.801186,-191.970436)">
+                    <text x="1727.793px" y="467.643px" style="font-family:'DejaVuSans', 'DejaVu Sans', sans-serif;font-size:22.917px;fill:rgb(45,41,38);">A</text>
+                </g>
+                <g transform="matrix(0.991603,0.129322,-0.129322,0.991603,75.367229,-221.610044)">
+                    <text x="1744.113px" y="469.534px" style="font-family:'DejaVuSans', 'DejaVu Sans', sans-serif;font-size:22.917px;fill:rgb(45,41,38);">-</text>
+                </g>
+                <g transform="matrix(0.989306,0.145854,-0.145854,0.989306,87.387423,-250.614971)">
+                    <text x="1752.764px" y="470.632px" style="font-family:'DejaVuSans', 'DejaVu Sans', sans-serif;font-size:22.917px;fill:rgb(45,41,38);">B</text>
+                </g>
+                <g transform="matrix(0.986691,0.162606,-0.162606,0.986691,100.486878,-281.441293)">
+                    <text x="1769.546px" y="473.146px" style="font-family:'DejaVuSans', 'DejaVu Sans', sans-serif;font-size:22.917px;fill:rgb(45,41,38);">-</text>
+                </g>
+                <g transform="matrix(0.98382,0.179159,-0.179159,0.98382,113.826259,-311.034988)">
+                    <text x="1778.949px" y="474.678px" style="font-family:'DejaVuSans', 'DejaVu Sans', sans-serif;font-size:22.917px;fill:rgb(45,41,38);">S</text>
+                </g>
+                <g transform="matrix(0.98072,0.195419,-0.195419,0.98072,127.920916,-341.475453)">
+                    <text x="1794.513px" y="477.549px" style="font-family:'DejaVuSans', 'DejaVu Sans', sans-serif;font-size:22.917px;fill:rgb(45,41,38);">-</text>
+                </g>
+                <g transform="matrix(0.977218,0.212238,-0.212238,0.977218,142.840412,-371.925717)">
+                    <text x="1803.86px" y="479.391px" style="font-family:'DejaVuSans', 'DejaVu Sans', sans-serif;font-size:22.917px;fill:rgb(45,41,38);">E</text>
+                </g>
+                <g transform="matrix(0.973653,0.228033,-0.228033,0.973653,158.017267,-402.128382)">
+                    <text x="1819.246px" y="482.766px" style="font-family:'DejaVuSans', 'DejaVu Sans', sans-serif;font-size:22.917px;fill:rgb(45,41,38);">-</text>
+                </g>
+                <g transform="matrix(0.969254,0.246062,-0.246062,0.969254,175.53955,-435.027491)">
+                    <text x="1828.548px" y="484.914px" style="font-family:'DejaVuSans', 'DejaVu Sans', sans-serif;font-size:22.917px;fill:rgb(45,41,38);">H</text>
+                </g>
+                <g transform="matrix(0.964528,0.263979,-0.263979,0.964528,194.716495,-470.056937)">
+                    <text x="1846.436px" y="489.51px" style="font-family:'DejaVuSans', 'DejaVu Sans', sans-serif;font-size:22.917px;fill:rgb(45,41,38);">-</text>
+                </g>
+                <g transform="matrix(0.95966,0.281161,-0.281161,0.95966,213.193308,-501.898343)">
+                    <text x="1855.682px" y="492.016px" style="font-family:'DejaVuSans', 'DejaVu Sans', sans-serif;font-size:22.917px;fill:rgb(45,41,38);">C</text>
+                </g>
+                <g transform="matrix(0.954523,0.298138,-0.298138,0.954523,233.291959,-535.584183)">
+                    <text x="1872.226px" y="496.911px" style="font-family:'DejaVuSans', 'DejaVu Sans', sans-serif;font-size:22.917px;fill:rgb(45,41,38);">-</text>
+                </g>
+                <g transform="matrix(0.948749,0.316031,-0.316031,0.948749,254.348632,-568.949347)">
+                    <text x="1881.338px" y="499.724px" style="font-family:'DejaVuSans', 'DejaVu Sans', sans-serif;font-size:22.917px;fill:rgb(45,41,38);">R</text>
+                </g>
+                <g transform="matrix(0.943755,0.330644,-0.330644,0.943755,273.617763,-598.75004)">
+                    <text x="1896.742px" y="504.882px" style="font-family:'DejaVuSans', 'DejaVu Sans', sans-serif;font-size:22.917px;fill:rgb(45,41,38);">-</text>
+                </g>
+                <g transform="matrix(0.939436,0.342723,-0.342723,0.939436,289.056913,-621.54429)">
+                    <text x="1903.158px" y="507.1px" style="font-family:'DejaVuSans', 'DejaVu Sans', sans-serif;font-size:22.917px;fill:rgb(45,41,38);">Y</text>
+                </g>
+            </g>
+            <g transform="matrix(1,0,0,1,-747.999963,-355.8691)">
+                <g transform="matrix(0.993826,0.11095,-0.11095,0.993826,62.532152,-188.956651)">
+                    <text x="1729.083px" y="467.387px" style="font-family:'DejaVuSans', 'DejaVu Sans', sans-serif;font-size:22.917px;fill:rgb(45,41,38);">D</text>
+                </g>
+                <g transform="matrix(0.991209,0.132303,-0.132303,0.991209,77.482732,-227.125696)">
+                    <text x="1747.909px" y="469.511px" style="font-family:'DejaVuSans', 'DejaVu Sans', sans-serif;font-size:22.917px;fill:rgb(45,41,38);">E</text>
+                </g>
+                <g transform="matrix(0.988377,0.152023,-0.152023,0.988377,92.191788,-262.617494)">
+                    <text x="1763.542px" y="471.6px" style="font-family:'DejaVuSans', 'DejaVu Sans', sans-serif;font-size:22.917px;fill:rgb(45,41,38);">V</text>
+                </g>
+                <g transform="matrix(0.985883,0.167433,-0.167433,0.985883,104.531235,-291.382523)">
+                    <text x="1780.277px" y="474.219px" style="font-family:'DejaVuSans', 'DejaVu Sans', sans-serif;font-size:22.917px;fill:rgb(45,41,38);">I</text>
+                </g>
+                <g transform="matrix(0.982813,0.184602,-0.184602,0.982813,118.515806,-321.93248)">
+                    <text x="1788.199px" y="475.524px" style="font-family:'DejaVuSans', 'DejaVu Sans', sans-serif;font-size:22.917px;fill:rgb(45,41,38);">D</text>
+                </g>
+                <g transform="matrix(0.978575,0.20589,-0.20589,0.978575,137.339342,-361.736951)">
+                    <text x="1806.794px" y="479.039px" style="font-family:'DejaVuSans', 'DejaVu Sans', sans-serif;font-size:22.917px;fill:rgb(45,41,38);">E</text>
+                </g>
+            </g>
+            <g transform="matrix(1,0,0,1,-747.999963,-393.188367)">
+                <g transform="matrix(0.993577,0.113158,-0.113158,0.993577,64.176367,-193.246854)">
+                    <text x="1734.37px" y="468.696px" style="font-family:'DejaVuSans', 'DejaVu Sans', sans-serif;font-size:22.917px;fill:rgb(45,41,38);">M</text>
+                </g>
+                <g transform="matrix(0.991362,0.131157,-0.131157,0.991362,76.95504,-226.141364)">
+                    <text x="1755.239px" y="471.137px" style="font-family:'DejaVuSans', 'DejaVu Sans', sans-serif;font-size:22.917px;fill:rgb(45,41,38);">-</text>
+                </g>
+                <g transform="matrix(0.988808,0.149191,-0.149191,0.988808,90.219064,-257.988184)">
+                    <text x="1764.683px" y="472.345px" style="font-family:'DejaVuSans', 'DejaVu Sans', sans-serif;font-size:22.917px;fill:rgb(45,41,38);">M</text>
+                </g>
+                <g transform="matrix(0.985052,0.172255,-0.172255,0.985052,108.598646,-300.451134)">
+                    <text x="1785.49px" y="475.517px" style="font-family:'DejaVuSans', 'DejaVu Sans', sans-serif;font-size:22.917px;fill:rgb(45,41,38);">U</text>
+                </g>
+                <g transform="matrix(0.981319,0.19239,-0.19239,0.981319,125.773126,-337.982881)">
+                    <text x="1803.236px" y="478.642px" style="font-family:'DejaVuSans', 'DejaVu Sans', sans-serif;font-size:22.917px;fill:rgb(45,41,38);">L</text>
+                </g>
+                <g transform="matrix(0.97884,0.204628,-0.204628,0.97884,136.747706,-360.998179)">
+                    <text x="1813.88px" y="480.706px" style="font-family:'DejaVuSans', 'DejaVu Sans', sans-serif;font-size:22.917px;fill:rgb(45,41,38);">T</text>
+                </g>
+                <g transform="matrix(0.975891,0.21826,-0.21826,0.975891,149.695816,-387.480717)">
+                    <text x="1828.767px" y="483.853px" style="font-family:'DejaVuSans', 'DejaVu Sans', sans-serif;font-size:22.917px;fill:rgb(45,41,38);">I</text>
+                </g>
+                <g transform="matrix(0.972563,0.23264,-0.23264,0.972563,163.354125,-413.936658)">
+                    <text x="1836.572px" y="485.576px" style="font-family:'DejaVuSans', 'DejaVu Sans', sans-serif;font-size:22.917px;fill:rgb(45,41,38);">P</text>
+                </g>
+                <g transform="matrix(0.968229,0.250064,-0.250064,0.968229,181.117616,-447.390466)">
+                    <text x="1851.244px" y="489.085px" style="font-family:'DejaVuSans', 'DejaVu Sans', sans-serif;font-size:22.917px;fill:rgb(45,41,38);">L</text>
+                </g>
+                <g transform="matrix(0.964987,0.262299,-0.262299,0.964987,194.187179,-471.138313)">
+                    <text x="1861.837px" y="491.798px" style="font-family:'DejaVuSans', 'DejaVu Sans', sans-serif;font-size:22.917px;fill:rgb(45,41,38);">Y</text>
+                </g>
+            </g>
+            <g transform="matrix(1,0,0,1,-747.999963,-430.507634)">
+                <g transform="matrix(0.994025,0.109156,-0.109156,0.994025,61.520549,-186.73984)">
+                    <text x="1736.406px" y="468.547px" style="font-family:'DejaVuSans', 'DejaVu Sans', sans-serif;font-size:22.917px;fill:rgb(45,41,38);">N</text>
+                </g>
+                <g transform="matrix(0.992167,0.124918,-0.124918,0.992167,72.530837,-215.506481)">
+                    <text x="1754.692px" y="470.6px" style="font-family:'DejaVuSans', 'DejaVu Sans', sans-serif;font-size:22.917px;fill:rgb(45,41,38);">-</text>
+                </g>
+                <g transform="matrix(0.989845,0.142149,-0.142149,0.989845,84.972863,-245.978296)">
+                    <text x="1764.124px" y="471.748px" style="font-family:'DejaVuSans', 'DejaVu Sans', sans-serif;font-size:22.917px;fill:rgb(45,41,38);">M</text>
+                </g>
+                <g transform="matrix(0.986427,0.1642,-0.1642,0.986427,102.183811,-286.642708)">
+                    <text x="1784.935px" y="474.768px" style="font-family:'DejaVuSans', 'DejaVu Sans', sans-serif;font-size:22.917px;fill:rgb(45,41,38);">U</text>
+                </g>
+                <g transform="matrix(0.983017,0.183514,-0.183514,0.983017,118.290213,-322.71435)">
+                    <text x="1802.739px" y="477.753px" style="font-family:'DejaVuSans', 'DejaVu Sans', sans-serif;font-size:22.917px;fill:rgb(45,41,38);">L</text>
+                </g>
+                <g transform="matrix(0.980765,0.195193,-0.195193,0.980765,128.517784,-344.729797)">
+                    <text x="1813.367px" y="479.715px" style="font-family:'DejaVuSans', 'DejaVu Sans', sans-serif;font-size:22.917px;fill:rgb(45,41,38);">T</text>
+                </g>
+                <g transform="matrix(0.97807,0.208277,-0.208277,0.97807,140.634944,-370.208271)">
+                    <text x="1828.306px" y="482.722px" style="font-family:'DejaVuSans', 'DejaVu Sans', sans-serif;font-size:22.917px;fill:rgb(45,41,38);">I</text>
+                </g>
+                <g transform="matrix(0.97504,0.222029,-0.222029,0.97504,153.37102,-395.578711)">
+                    <text x="1836.104px" y="484.36px" style="font-family:'DejaVuSans', 'DejaVu Sans', sans-serif;font-size:22.917px;fill:rgb(45,41,38);">P</text>
+                </g>
+                <g transform="matrix(0.97109,0.238712,-0.238712,0.97109,169.926836,-427.707759)">
+                    <text x="1850.796px" y="487.706px" style="font-family:'DejaVuSans', 'DejaVu Sans', sans-serif;font-size:22.917px;fill:rgb(45,41,38);">L</text>
+                </g>
+                <g transform="matrix(0.968126,0.250464,-0.250464,0.968126,182.133284,-450.593769)">
+                    <text x="1861.435px" y="490.299px" style="font-family:'DejaVuSans', 'DejaVu Sans', sans-serif;font-size:22.917px;fill:rgb(45,41,38);">Y</text>
+                </g>
+            </g>
+            <g transform="matrix(0.772997,-0.634409,0.634409,0.772997,-1865.332523,-1269.582504)">
+                <g transform="matrix(25.440041,0,0,25.440041,43.137434,3425.099569)">
+                </g>
+                <text x="-101.031px" y="3425.1px" style="font-family:'DejaVuSans', 'DejaVu Sans', sans-serif;font-size:25.44px;fill:rgb(45,41,38);">N-MUL<tspan x="-21.581px -6.041px " y="3425.1px 3425.1px ">TI</tspan>PL<tspan x="27.598px " y="3425.1px ">Y</tspan></text>
+            </g>
+            <g transform="matrix(0.706255,-0.707957,0.707957,0.706255,-2396.080174,-1138.546171)">
+                <g transform="matrix(25.34131,0,0,25.34131,172.052885,3765.844435)">
+                </g>
+                <text x="25.536px" y="3765.844px" style="font-family:'DejaVuSans', 'DejaVu Sans', sans-serif;font-size:25.341px;fill:rgb(45,41,38);">M-MUL<tspan x="107.586px 123.065px " y="3765.844px 3765.844px ">TI</tspan>PL<tspan x="156.573px " y="3765.844px ">Y</tspan></text>
+            </g>
+            <g transform="matrix(0.670605,-0.741815,0.741815,0.670605,-2475.837758,-865.870667)">
+                <g transform="matrix(23.228406,0,0,23.228406,246.302416,3681.921615)">
+                </g>
+                <text x="166.262px" y="3681.922px" style="font-family:'DejaVuSans', 'DejaVu Sans', sans-serif;font-size:23.228px;fill:rgb(45,41,38);">DIVIDE</text>
+            </g>
+        </g>
+        <g>
+            <g>
+                <path d="M1490.024,419.421L1443.643,457.485" style="fill:none;stroke:rgb(45,41,38);stroke-width:8.33px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:3;"/>
+                <path d="M1454.433,433.106C1454.887,437.345 1456.454,441.35 1459.211,444.709C1461.968,448.068 1465.59,450.386 1469.659,451.658L1424.942,472.833L1454.433,433.106Z" style="fill:rgb(45,41,38);"/>
+            </g>
+            <g>
+                <path d="M1648.077,1050.404L1589.23,1038.698" style="fill:none;stroke:rgb(45,41,38);stroke-width:8.33px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:3;"/>
+                <path d="M1614.92,1031.573C1611.931,1034.614 1609.829,1038.365 1608.981,1042.627C1608.134,1046.89 1608.64,1051.16 1610.238,1055.112L1565.501,1033.979L1614.92,1031.573Z" style="fill:rgb(45,41,38);"/>
+            </g>
+            <g>
+                <path d="M1260.588,1572.872L1232.305,1519.956" style="fill:none;stroke:rgb(45,41,38);stroke-width:8.33px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:3;"/>
+                <path d="M1254.11,1535.295C1249.864,1534.913 1245.631,1535.668 1241.798,1537.717C1237.965,1539.766 1234.986,1542.866 1232.944,1546.609L1220.9,1498.62L1254.11,1535.295Z" style="fill:rgb(45,41,38);"/>
+            </g>
+            <g>
+                <path d="M610.895,1604.789L633.856,1549.356" style="fill:none;stroke:rgb(45,41,38);stroke-width:8.33px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:3;"/>
+                <path d="M635.832,1575.943C633.434,1572.418 630.165,1569.625 626.15,1567.962C622.135,1566.299 617.848,1565.962 613.659,1566.759L643.115,1527.005L635.832,1575.943Z" style="fill:rgb(45,41,38);"/>
+            </g>
+            <g>
+                <path d="M174.062,1122.818L231.478,1105.401" style="fill:none;stroke:rgb(45,41,38);stroke-width:8.33px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:3;"/>
+                <path d="M212.18,1123.795C213.383,1119.704 213.468,1115.405 212.207,1111.246C210.945,1107.088 208.486,1103.561 205.213,1100.828L254.63,1098.378L212.18,1123.795Z" style="fill:rgb(45,41,38);"/>
+            </g>
+            <g>
+                <path d="M269.507,479.381L319.395,512.716" style="fill:none;stroke:rgb(45,41,38);stroke-width:8.33px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:3;"/>
+                <path d="M292.933,509.467C296.858,507.802 300.236,505.141 302.65,501.527C305.065,497.914 306.231,493.775 306.267,489.512L339.511,526.157L292.933,509.467Z" style="fill:rgb(45,41,38);"/>
+            </g>
+        </g>
+    </g>
+</svg>
