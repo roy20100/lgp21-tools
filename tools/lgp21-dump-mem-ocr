@@ -12,12 +12,21 @@ if len(sys.argv) < 2:
 
 # Read the entire memory image in.
 memory = [-1] * 4096
+all_words = [''] * 4096
 with open(sys.argv[1], 'r') as file:
     # Sometimes OCR misreads '0' as 'o', so correct for that.
-    content = file.read().replace('o', '0').replace('O', '0').split()
+    content = file.read()
+    content = content.replace('o', '0').replace('O', '0')
+    content = content.replace('l', '1')
+    content = content.split()
     address = 0
     for word in content:
-        if len(word) == 2:
+        all_words[address] = word
+        if word.find('?') != -1:
+            # Invalid word.
+            memory[address] = -2
+            address = int((address + 1) % 4096)
+        elif len(word) == 2:
             # New track address.
             address = int(hexadecimal.from_hex(word) * 64)
         else:
@@ -31,5 +40,9 @@ for address in range(0, 4096):
     if inst == -1:
         # Unused location, skip it.
         continue
-    inststr = hexadecimal.to_hex(inst, min_digits=1, order_codes=True)
-    print("%02d%02d  %8s'  \"%s\"   %s" % (address / 64, address % 64, inststr, dis.decode_string(inst), dis.disassemble(inst)))
+    elif inst == -2:
+        # Invalid word.
+        print("%02d%02d  %8s'  INVALID" % (address / 64, address % 64, all_words[address]))
+    else:
+        inststr = hexadecimal.to_hex(inst, min_digits=1, order_codes=True)
+        print("%02d%02d  %8s'  \"%s\"   %s" % (address / 64, address % 64, inststr, dis.decode_string(inst), dis.disassemble(inst)))
