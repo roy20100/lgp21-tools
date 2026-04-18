@@ -46,3 +46,19 @@ for address in range(0, 4096):
     else:
         inststr = hexadecimal.to_hex(inst, min_digits=1, order_codes=True)
         print("%02d%02d  %8s'  \"%s\"   %s" % (address / 64, address % 64, inststr, dis.decode_string(inst), dis.disassemble(inst)))
+print('')
+
+# Convert the whole thing into strings.
+for address in range(0, 4096):
+    inst = memory[address]
+    if inst == -1:
+        print('.....', end='')
+    elif inst == -2:
+        word = all_words[address].replace('?', '0')
+        print(dis.decode_string(hexadecimal.from_hex(word)), end='')
+    else:
+        print(dis.decode_string(inst), end='')
+    #print('|', end='')
+    if (address % 12) == 11:
+        print('')
+print('')
