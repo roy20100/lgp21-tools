@@ -122,13 +122,16 @@ def assemble_words(code, location, line):
                     # Convert the string into 6-bit characters, 5 at a time.
                     chars = charset.io_ascii_to_6bit(value, as_list=True, end_in_lower=True)
                     while (len(chars) % 5) != 0:
-                        chars.append(0)
+                        chars.append(4) # Pad with "shift to lower case".
                     for index in range(0, len(chars), 5):
                         word  = int(chars[index]) << 26
                         word |= int(chars[index + 1]) << 20
                         word |= int(chars[index + 2]) << 14
                         word |= int(chars[index + 3]) << 8
                         word |= int(chars[index + 4]) << 2
+                        if index == (len(chars) - 5):
+                            # Use the LSB of the word as a string terminator.
+                            word |= 0x00000002
                         insn = codegen.Instruction(location)
                         insn.set_literal(word)
                         code.add_instruction(insn)

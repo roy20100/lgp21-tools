@@ -20,6 +20,7 @@
 # DEALINGS IN THE SOFTWARE.
 
 import lgp21.insn as insn
+import lgp21.charset as charset
 
 '''
 Pretty-print a device name.
@@ -131,3 +132,19 @@ def disassemble(word):
         return "%08x  %2s %02d%02d   %s" % (word, insn.order_names[order].upper(), track, sector, explain(word))
     else:
         return "%08x" % word
+
+'''
+Decode a word into a 6-bit text string.
+'''
+def decode_string(word):
+    chars = []
+    bit = 26
+    while bit >= 2:
+        ch = (word >> bit) & 0x3F
+        if ch == 0:
+            # Convert "Tape Feed" / NUL into space.
+            chars.append(3)
+        else:
+            chars.append(ch)
+        bit -= 6
+    return charset.io_6bit_to_ptx(chars).replace('\n', '')

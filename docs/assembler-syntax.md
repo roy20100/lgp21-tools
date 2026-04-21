@@ -72,7 +72,7 @@ LGP-21's disk rotation.  This can be done with `.org`:
       ...
       .org 0436
     msg:
-      w "Hi there"
+      .dw "Hi there"
 
 This can get very tedious, so it is also possible to prefix instructions
 with the address directly:
@@ -82,7 +82,7 @@ with the address directly:
            i 6300
     ...
     .0436: msg:
-           w "hello"
+           .dw "hello"
 
 If an address is not specified, it will automatically increment from the
 previous line.
@@ -185,9 +185,22 @@ starting from `ADDRESS` after the program is loaded from tape.
     .dw 'GOODBYE\n'
 
 Strings are encoded in 6-bit character codes, with up to 5 per word.
-Left-over bits will be padded on the right with zero bits.  The escape
-sequences "\"", "\'", "\n", "\b", and "\t" may be used for quotes, newline,
-backspace, and tab but no other escape sequences are recognised.
+Left-over bits will be padded on the right with "shift to lower case
+characters" and the least significant bit in the 31-bit words is set
+to act as a terminator.
+
+This is compatible with standard practice from original LGP-21 programmers,
+and allows the "T" / "jn" instruction to be used to detect the end of a string.
+For example, this is how 'GOODBYTE\n' is encoded:
+
+    22q8q354'
+    14995012'
+
+Note the 2 on the end of the second word in the 31-bit LSB position.
+See the `print_strings` example to see how this is used.
+
+The escape sequences "\"", "\'", "\n", "\b", and "\t" may be used for quotes,
+newline, backspace, and tab but no other escape sequences are recognised.
 
 It is assumed that the character set for a string starts in lower case.
 Shift codes are inserted to switch to and from upper case as necessary.
