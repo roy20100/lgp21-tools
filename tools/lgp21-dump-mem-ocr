@@ -1,0 +1,64 @@
+#!/usr/bin/python3
+#
+# Convert output from the LGP-21 dump program into something readable.
+
+import sys
+import lgp21.hexadecimal as hexadecimal
+import lgp21.dis as dis
+
+if len(sys.argv) < 2:
+    print('Usage: lgp21-dump-mem-ocr dump-input.txt >output.txt')
+    sys.exit(1)
+
+# Read the entire memory image in.
+memory = [-1] * 4096
+all_words = [''] * 4096
+with open(sys.argv[1], 'r') as file:
+    # Sometimes OCR misreads '0' as 'o', so correct for that.
+    content = file.read()
+    content = content.replace('o', '0').replace('O', '0')
+    content = content.replace('l', '1')
+    content = content.split()
+    address = 0
+    for word in content:
+        all_words[address] = word
+        if word.find('?') != -1:
+            # Invalid word.
+            memory[address] = -2
+            address = int((address + 1) % 4096)
+        elif len(word) == 2:
+            # New track address.
+            address = int(hexadecimal.from_hex(word) * 64)
+        else:
+            # Word in the current track
+            memory[address] = hexadecimal.from_hex(word)
+            address = int((address + 1) % 4096)
+
+# Disassemble it.
+for address in range(0, 4096):
+    inst = memory[address]
+    if inst == -1:
+        # Unused location, skip it.
+        continue
+    elif inst == -2:
+        # Invalid word.
+        print("%02d%02d  %8s'  INVALID" % (address / 64, address % 64, all_words[address]))
+    else:
+        inststr = hexadecimal.to_hex(inst, min_digits=1, order_codes=True)
+        print("%02d%02d  %8s'  \"%s\"   %s" % (address / 64, address % 64, inststr, dis.decode_string(inst), dis.disassemble(inst)))
+print('')
+
+# Convert the whole thing into strings.
+for address in range(0, 4096):
+    inst = memory[address]
+    if inst == -1:
+        print('.....', end='')
+    elif inst == -2:
+        word = all_words[address].replace('?', '0')
+        print(dis.decode_string(hexadecimal.from_hex(word)), end='')
+    else:
+        print(dis.decode_string(inst), end='')
+    #print('|', end='')
+    if (address % 12) == 11:
+        print('')
+print('')
