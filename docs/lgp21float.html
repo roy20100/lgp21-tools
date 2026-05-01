@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+        <h2>LGP-21 to float</h2>
+        <input type="text" id="num" maxlength="8" oninput="num_update(event)" value="00000000">
+        <label for="type1">hex:</label><input type="radio" id="type1" onchange="num_update(event)" name="val_type" value="hex" checked>
+        <label for="type2">lgp:</label><input type="radio" id="type2" onchange="num_update(event)" name="val_type" value="lgp">
+        <br><span>output:</span><div id="output-float"></div>
+         <h2>float to LGP-21</h2>
+         <input type="text" id="float" oninput="float_update(event)" value="0.5">
+         <br><span>output:</span><div id="output-num"></div>
+        <script>
+            const num_box=document.getElementById('num');
+            const float_box=document.getElementById('float');
+            const output_float=document.getElementById('output-float');
+            const output_num=document.getElementById('output-num');
+            num_update();
+            float_update();
+            function num_update(e){
+                const num_type=document.querySelector('input[name="val_type"]:checked');
+                console.log('boop',num_box.value,num_type.value);
+                if(num_type.value.length>8)
+                    num_type.value=num_type.value.substring(0, 8);
+                var data=num_box.value;
+                if(num_type.value=='lgp')
+                    data=num_box.value.split('').map(lgp_to_hex).join('');
+                const value=parseInt(data,16);
+                const sval=(value<(2**31))?value:(value-(2**32));
+                output_float.innerHTML=`<table style="width:30em"><tr><td>value=${sval}</dt><td>(-1<=n<1)=${sval/(2**31)}</td></tr></table>
+                <table style="width:30em">
+                <tr><td>${sval/(2**31)}@0 </td><td> ${sval/(2**30)}@1 </td><td> ${sval/(2**29)}@2 </td><td> ${sval/(2**28)}@3  </td></tr>
+                <tr><td>${sval/(2**27)}@4 </td><td> ${sval/(2**26)}@5 </td><td> ${sval/(2**25)}@6 </td><td> ${sval/(2**24)}@7  </td></tr>
+                <tr><td>${sval/(2**23)}@8 </td><td> ${sval/(2**22)}@9 </td><td> ${sval/(2**21)}@10</td><td> ${sval/(2**20)}@11 </td></tr>
+                <tr><td>${sval/(2**19)}@12</td><td> ${sval/(2**18)}@13</td><td> ${sval/(2**17)}@14</td><td> ${sval/(2**16)}@15 </td></tr>
+                <tr><td>${sval/(2**15)}@16</td><td> ${sval/(2**14)}@17</td><td> ${sval/(2**13)}@18</td><td> ${sval/(2**12)}@19 </td></tr>
+                <tr><td>${sval/(2**11)}@20</td><td> ${sval/(2**10)}@21</td><td> ${sval/(2**9 )}@22</td><td> ${sval/(2**8 )}@23 </td></tr>
+                <tr><td>${sval/(2**7 )}@24</td><td> ${sval/(2**6 )}@25</td><td> ${sval/(2**5 )}@26</td><td> ${sval/(2**4 )}@27 </td></tr>
+                <tr><td>${sval/(2**3 )}@28</td><td> ${sval/(2**2 )}@29</td><td> ${sval/(2**1 )}@30</td><td> ${sval/(2**0 )}@31 </td></tr>
+                </table>`;
+            }
+            lgp_map={'l':'1','z':'0','b':'1','y':'2','r':'3','i':'4','d':'5','n':'6','m':'7',
+                    'p':'8','e':'9','u':'a','t':'b','h':'c','c':'d','a':'e','s':'f','v':'7',
+                    'o':'8','x':'9','f':'a','g':'b','j':'c','k':'d','q':'e','w':'f'};
+            function lgp_to_hex(c){
+                return lgp_map[c.toLowerCase()]||c;
+            }
+            function float_update(e)
+            {
+                const value=parseFloat(float_box.value);
+                const num=parseInt(value*(2**31));
+                output_num.innerHTML=`<table style="width:30em"><tr><td>int=${num}</dt><td>hex= ${f_to_hex(num)}</td></tr></table>
+                <table style="width:30em">
+                <tr><td>${f_to_hex(num/(2**0 ))}@0 </td><td> ${f_to_hex(num/(2**1 ))}@1 </td><td> ${f_to_hex(num/(2**2 ))}@2 </td><td> ${f_to_hex(num/(2**3 ))}@3  </td></tr>
+                <tr><td>${f_to_hex(num/(2**4 ))}@4 </td><td> ${f_to_hex(num/(2**5 ))}@5 </td><td> ${f_to_hex(num/(2**6 ))}@6 </td><td> ${f_to_hex(num/(2**7 ))}@7  </td></tr>
+                <tr><td>${f_to_hex(num/(2**8 ))}@8 </td><td> ${f_to_hex(num/(2**9 ))}@9 </td><td> ${f_to_hex(num/(2**10))}@10</td><td> ${f_to_hex(num/(2**11))}@11 </td></tr>
+                <tr><td>${f_to_hex(num/(2**12))}@12</td><td> ${f_to_hex(num/(2**13))}@13</td><td> ${f_to_hex(num/(2**14))}@14</td><td> ${f_to_hex(num/(2**15))}@15 </td></tr>
+                <tr><td>${f_to_hex(num/(2**16))}@16</td><td> ${f_to_hex(num/(2**17))}@17</td><td> ${f_to_hex(num/(2**18))}@18</td><td> ${f_to_hex(num/(2**19))}@19 </td></tr>
+                <tr><td>${f_to_hex(num/(2**20))}@20</td><td> ${f_to_hex(num/(2**21))}@21</td><td> ${f_to_hex(num/(2**22))}@22</td><td> ${f_to_hex(num/(2**23))}@23 </td></tr>
+                <tr><td>${f_to_hex(num/(2**24))}@24</td><td> ${f_to_hex(num/(2**25))}@25</td><td> ${f_to_hex(num/(2**26))}@26</td><td> ${f_to_hex(num/(2**27))}@27 </td></tr>
+                <tr><td>${f_to_hex(num/(2**28))}@28</td><td> ${f_to_hex(num/(2**29))}@29</td><td> ${f_to_hex(num/(2**30))}@30</td><td> ${f_to_hex(num/(2**31))}@31 </td></tr>
+                </table>`
+            }
+            function f_to_hex(n)
+            {
+                var neg=false;
+                if(n<0){
+                    n=n+(2**32);
+                    neg=true;
+                }
+                if(n>1){
+                    const hex=Math.round(n).toString(16).padStart(8, '0');
+                    if((n>=(2**31) && !neg)||(n<=(2**31) && neg))
+                        return  "<s>"+hex+"</s>";
+                    else
+                        return  hex;
+                }
+                else
+                    return "too small";
+            }
+        </script>
+    </body>
+</html>
