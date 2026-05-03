@@ -7,8 +7,10 @@
         <label for="type1">hex:</label><input type="radio" id="type1" onchange="num_update(event)" name="val_type" value="hex" checked>
         <label for="type2">lgp:</label><input type="radio" id="type2" onchange="num_update(event)" name="val_type" value="lgp">
         <br><span>output:</span><div id="output-float"></div>
-         <h2>float to LGP-21</h2>
-         <input type="text" id="float" oninput="float_update(event)" value="0.5">
+        <h2>float to LGP-21</h2>
+        <input type="text" id="float" oninput="float_update(event)" value="0.5">
+        <label for="type3">hex:</label><input type="radio" id="type3" onchange="float_update(event)" name="out_type" value="hex" checked>
+        <label for="type4">lgp:</label><input type="radio" id="type4" onchange="float_update(event)" name="out_type" value="lgp">
          <br><span>output:</span><div id="output-num"></div>
         <script>
             const num_box=document.getElementById('num');
@@ -42,26 +44,32 @@
             lgp_map={'l':'1','z':'0','b':'1','y':'2','r':'3','i':'4','d':'5','n':'6','m':'7',
                     'p':'8','e':'9','u':'a','t':'b','h':'c','c':'d','a':'e','s':'f','v':'7',
                     'o':'8','x':'9','f':'a','g':'b','j':'c','k':'d','q':'e','w':'f'};
+            hex_map={'a':'f','b':'g','c':'j','d':'k','e':'q','f':'w'};
             function lgp_to_hex(c){
                 return lgp_map[c.toLowerCase()]||c;
             }
+            function hex_to_lgp(c){
+                return hex_map[c.toLowerCase()]||c;
+            }
             function float_update(e)
             {
+                const ot=document.querySelector('input[name="out_type"]:checked').value;
+                console.log('boop',float_box.value,ot);
                 const value=parseFloat(float_box.value);
                 const num=parseInt(value*(2**31));
                 output_num.innerHTML=`<table style="width:30em"><tr><td>int=${num}</dt><td>hex= ${f_to_hex(num)}</td></tr></table>
                 <table style="width:30em">
-                <tr><td>${f_to_hex(num/(2**0 ))}@0 </td><td> ${f_to_hex(num/(2**1 ))}@1 </td><td> ${f_to_hex(num/(2**2 ))}@2 </td><td> ${f_to_hex(num/(2**3 ))}@3  </td></tr>
-                <tr><td>${f_to_hex(num/(2**4 ))}@4 </td><td> ${f_to_hex(num/(2**5 ))}@5 </td><td> ${f_to_hex(num/(2**6 ))}@6 </td><td> ${f_to_hex(num/(2**7 ))}@7  </td></tr>
-                <tr><td>${f_to_hex(num/(2**8 ))}@8 </td><td> ${f_to_hex(num/(2**9 ))}@9 </td><td> ${f_to_hex(num/(2**10))}@10</td><td> ${f_to_hex(num/(2**11))}@11 </td></tr>
-                <tr><td>${f_to_hex(num/(2**12))}@12</td><td> ${f_to_hex(num/(2**13))}@13</td><td> ${f_to_hex(num/(2**14))}@14</td><td> ${f_to_hex(num/(2**15))}@15 </td></tr>
-                <tr><td>${f_to_hex(num/(2**16))}@16</td><td> ${f_to_hex(num/(2**17))}@17</td><td> ${f_to_hex(num/(2**18))}@18</td><td> ${f_to_hex(num/(2**19))}@19 </td></tr>
-                <tr><td>${f_to_hex(num/(2**20))}@20</td><td> ${f_to_hex(num/(2**21))}@21</td><td> ${f_to_hex(num/(2**22))}@22</td><td> ${f_to_hex(num/(2**23))}@23 </td></tr>
-                <tr><td>${f_to_hex(num/(2**24))}@24</td><td> ${f_to_hex(num/(2**25))}@25</td><td> ${f_to_hex(num/(2**26))}@26</td><td> ${f_to_hex(num/(2**27))}@27 </td></tr>
-                <tr><td>${f_to_hex(num/(2**28))}@28</td><td> ${f_to_hex(num/(2**29))}@29</td><td> ${f_to_hex(num/(2**30))}@30</td><td> ${f_to_hex(num/(2**31))}@31 </td></tr>
+                <tr><td>${f_to_hex(num/(2**0 ),ot)}@0 </td><td> ${f_to_hex(num/(2**1 ),ot)}@1 </td><td> ${f_to_hex(num/(2**2 ),ot)}@2 </td><td> ${f_to_hex(num/(2**3 ),ot)}@3  </td></tr>
+                <tr><td>${f_to_hex(num/(2**4 ),ot)}@4 </td><td> ${f_to_hex(num/(2**5 ),ot)}@5 </td><td> ${f_to_hex(num/(2**6 ),ot)}@6 </td><td> ${f_to_hex(num/(2**7 ),ot)}@7  </td></tr>
+                <tr><td>${f_to_hex(num/(2**8 ),ot)}@8 </td><td> ${f_to_hex(num/(2**9 ),ot)}@9 </td><td> ${f_to_hex(num/(2**10),ot)}@10</td><td> ${f_to_hex(num/(2**11),ot)}@11 </td></tr>
+                <tr><td>${f_to_hex(num/(2**12),ot)}@12</td><td> ${f_to_hex(num/(2**13),ot)}@13</td><td> ${f_to_hex(num/(2**14),ot)}@14</td><td> ${f_to_hex(num/(2**15),ot)}@15 </td></tr>
+                <tr><td>${f_to_hex(num/(2**16),ot)}@16</td><td> ${f_to_hex(num/(2**17),ot)}@17</td><td> ${f_to_hex(num/(2**18),ot)}@18</td><td> ${f_to_hex(num/(2**19),ot)}@19 </td></tr>
+                <tr><td>${f_to_hex(num/(2**20),ot)}@20</td><td> ${f_to_hex(num/(2**21),ot)}@21</td><td> ${f_to_hex(num/(2**22),ot)}@22</td><td> ${f_to_hex(num/(2**23),ot)}@23 </td></tr>
+                <tr><td>${f_to_hex(num/(2**24),ot)}@24</td><td> ${f_to_hex(num/(2**25),ot)}@25</td><td> ${f_to_hex(num/(2**26),ot)}@26</td><td> ${f_to_hex(num/(2**27),ot)}@27 </td></tr>
+                <tr><td>${f_to_hex(num/(2**28),ot)}@28</td><td> ${f_to_hex(num/(2**29),ot)}@29</td><td> ${f_to_hex(num/(2**30),ot)}@30</td><td> ${f_to_hex(num/(2**31),ot)}@31 </td></tr>
                 </table>`
             }
-            function f_to_hex(n)
+            function f_to_hex(n,type='hex')
             {
                 var neg=false;
                 if(n<0){
@@ -69,7 +77,9 @@
                     neg=true;
                 }
                 if(n>1){
-                    const hex=Math.round(n).toString(16).padStart(8, '0');
+                    var hex=Math.round(n).toString(16).padStart(8, '0');
+                    if(type=='lgp')
+                        hex=hex.split('').map(hex_to_lgp).join('');
                     if((n>=(2**31) && !neg)||(n<=(2**31) && neg))
                         return  "<s>"+hex+"</s>";
                     else
